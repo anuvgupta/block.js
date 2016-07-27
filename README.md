@@ -34,7 +34,7 @@ compatible
         .add('text', 'Hello World')
     .fill(document.body);
     ```
-4. Open `demo.html` your favorite browser (Chrome) to see `Hello World` on the screen!
+4. Open `demo.html` in your favorite browser (Chrome) to see `Hello World` on the screen!
 5. Explanation
     - Lines 1-6 - HTML Head
         - HTML5 doctype declaration
