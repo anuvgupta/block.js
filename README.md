@@ -23,7 +23,8 @@ compatible
               }
             </script>
         </head>
-        <body onload = 'load();'>
+        <body onload = 'load()'>
+            <!-- blocks are placed here -->
         </body>
     </html>
     ```
@@ -49,4 +50,4 @@ compatible
         - *Lack of semicolons `;` is due to command chaining (most functions of a Block return that Block)*
     - Lines 15-18 - HTML Body
         - `onload = 'load()` calls load function to generate blocks
-        - body tag left blank
+        - body tag left blank (`fill` method overwrites contents, including comments)
