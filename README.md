@@ -29,6 +29,22 @@
 
     ```javascript
     Block()
-        .add('text', 'Hello World!')
+        .add('text', 'Hello World')
     .fill(document.body);
     ```
+4. Open `demo.html` your favorite browser (Chrome) to see `Hello World` on the screen!
+5. Explanation
+    - Lines 1-6 - HTML Head
+        - HTML5 doctype declaration
+        - head block with title
+        - link to block.js stylesheet
+        - script link to block.js
+    - Lines 7-14 - JavaScript
+        - 8: declare `load()` function
+        - 10: `Block()` generates a new HTML block
+        - 11: add a text block, with value `Hello World`, to the Block generated in line 10
+        - 12: "fill" the body node with the Block generated in line 10 (modified in line 11)
+        - *Lack of semicolons `;` due to command chaining (most functions of a Block return that Block)*
+    - Lines 15-18 - HTML Body
+        - `onload = 'load()` calls load function to generate blocks
+        - body tag left blank
