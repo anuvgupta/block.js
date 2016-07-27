@@ -1,6 +1,7 @@
 # block.js
 `block.js` is a lightweight JavaScript library for generating HTML blocks <sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
   
+  
 &nbsp;&nbsp;&nbsp;<img src = 'http://www.winningmoves.com/images/techandmeth/jquery.gif' width = '60px'/>  
 compatible
 
