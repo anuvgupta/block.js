@@ -25,7 +25,8 @@
         </body>
     </html>
     ```
-3. Add the following code to the `function load()` JavaScript block:
+3. Add the following code to the `function load()` JavaScript block (after the comment):
+
     ```javascript
     Block()
         .add('text', 'Hello World!')
