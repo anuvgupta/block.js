@@ -50,10 +50,10 @@ block.js is a lightweight JavaScript library for generating HTML blocks
         - body tag left blank (`fill` method overwrites contents, including comments)
   
 ## Further Tutorials
-&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js)
+&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js/tutorials)
 
 # Documentation
-&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js)
+&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
 
 # Compatibility
 &nbsp;&nbsp;&nbsp;&nbsp;<img src = 'http://anuvgupta.tk/block.js/img/jQueryB.png' width = '70px'/>
