@@ -51,10 +51,10 @@ block.js splits web design into three main divisions:
 4. Open `demo.html` in your favorite browser (Chrome) to see `Hello World` on the screen!
 5. Explanation
     - Lines 1-6 - HTML Head
-        - HTML5 doctype declaration
-        - head block with title
-        - link to block.js stylesheet
-        - script link to block.js
+        - 1-2: HTML5 doctype declaration
+        - 3-4: head block with title
+        - 5: link to block.js stylesheet
+        - 6: script link to block.js
     - Lines 7-14 - JavaScript
         - 8: declare `load()` function
         - 10: `Block()` generates a new HTML block
