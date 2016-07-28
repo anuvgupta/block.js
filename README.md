@@ -49,10 +49,13 @@ block.js is a lightweight JavaScript library for generating HTML blocks
         - `onload = 'load()` calls load function to generate blocks
         - body tag left blank (`fill` method overwrites contents, including comments)
   
-## Tutorials and Documentation
-View all tutorials and API docs at [anuvgupta.tk/block.js](https://anuvgupta.tk/block.js)
+# Further Tutorials
+&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js)
 
-## Compatibility
+# Documentation
+&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js)
+
+# Compatibility
 &nbsp;&nbsp;&nbsp;&nbsp;<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/jQueryB.png' width = '70px'/>
 <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/html5.png' width = '70px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/css3.png' width = '70px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/js5.png' width = '70px'/>
 <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/angular.png' width = '70px'/>
