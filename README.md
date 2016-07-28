@@ -2,6 +2,22 @@
 block.js is a lightweight JavaScript library for generating HTML blocks  
 &nbsp;&nbsp;&nbsp;&nbsp;<sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
 &nbsp;  
+Tired of writing `<html>` tags? Lost and confused in a web of `#css` selectors?  
+Just want to create *simple, aesthetic, stress-free* web pages? *block.js is for you!*
+
+## Components
+block.js separates web design into three main divisions: 
+
+1. Content Creation  
+  - Adding text to fill blocks  
+  - Linking images/icons for visuals  
+2. Layout and Style
+  - Modifying block appearance
+  - Defining positions of blocks
+3. Markup Generation
+  - Binding content and style
+  - Generating HTML blocks
+  
   
 ## Getting Started
 1. Clone this repository, or copy the raws [block.js](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.js),  [block.css](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.css), and [demo.html](https://raw.githubusercontent.com/anuvgupta/block.js/master/demo.html) into a folder
