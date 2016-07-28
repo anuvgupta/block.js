@@ -3,7 +3,7 @@ block.js is a lightweight JavaScript library for generating HTML blocks
 &nbsp;&nbsp;&nbsp;&nbsp;<sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
 &nbsp;  
 Tired of writing `<html>` tags? Lost and confused in a web of `#css` selectors?  
-Just want to create *simple, aesthetic, stress-free* web pages? *block.js is for you!*
+Just want to create *simple, aesthetic, stress-free* web pages? **block.js is for you!**
 
 ## Components
 block.js separates web design into three main divisions: 
