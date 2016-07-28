@@ -1,6 +1,9 @@
 var Block;
 Block = function () {
     var element;
+    // if (typeof arguments[0] === 'object' && arguments[0] instanceof Node && arguments[0] instanceof Element) {
+    //     element = target;
+    // }
     var node = function (t) { return document.createElement(t); };
     var tags = ('input button textarea hr p').split(' ');
     var reserved = [];
@@ -118,3 +121,17 @@ Block = function () {
     }
     return block;
 };
+var s = document.createElement('style');
+s.type = 'text/css';
+s.innerHTML = '.block { ' +
+	'width: 100%; ' +
+	'height: 100%; ' +
+	'display: table; ' +
+	'text-align: center; ' +
+'} ' +
+'.block .content { ' +
+	'display: table-cell; ' +
+	'vertical-align: middle; ' +
+'}';
+document.getElementsByTagName('head')[0].appendChild(s);
+s = undefined;
