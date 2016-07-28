@@ -49,7 +49,7 @@ block.js is a lightweight JavaScript library for generating HTML blocks
         - `onload = 'load()` calls load function to generate blocks
         - body tag left blank (`fill` method overwrites contents, including comments)
   
-# Further Tutorials
+## Further Tutorials
 &nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js)
 
 # Documentation
