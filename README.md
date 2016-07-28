@@ -5,7 +5,7 @@
 <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/html5.png' width = '60px'/>
 <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/css3.png' width = '60px'/>
 <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/js5.png' width = '60px'/>
-  
+
 ## Getting Started
 1. Clone this repository, or copy the raws [block.js](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.js),  [block.css](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.css), and [demo.html](https://raw.githubusercontent.com/anuvgupta/block.js/master/demo.html) into a folder
 2. With your favorite text editor, open `demo.html` - it should have following contents:
@@ -49,5 +49,5 @@
         - 12: "fill" the body node with the Block generated in line 10 (modified in line 11)
         - *Lack of semicolons `;` is due to command chaining (most functions of a Block return that Block)*
     - Lines 15-18 - HTML Body
-        - `onload = 'load()` calls load function to generate blocks
+        - `onload = 'load()` calls load function to generate blocks when body loads
         - body tag left blank (`fill` method overwrites contents, including comments)
