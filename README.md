@@ -56,7 +56,7 @@ block.js is a lightweight JavaScript library for generating HTML blocks
 &nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/jQueryB.png' width = '70px'/>
-<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/html5.png' width = '70px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/css3.png' width = '70px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/js5.png' width = '70px'/>
-<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/angular.png' width = '70px'/>
+&nbsp;&nbsp;&nbsp;&nbsp;<img src = 'http://anuvgupta.tk/block.js/img/jQueryB.png' width = '70px'/>
+<img src = 'http://anuvgupta.tk/block.js/img/html5.png' width = '70px'/><img src = 'http://anuvgupta.tk/block.js/img/css3.png' width = '70px'/><img src = 'http://anuvgupta.tk/block.js/img/js5.png' width = '70px'/>
+<img src = 'http://anuvgupta.tk/block.js/img/angular.png' width = '70px'/>
 
