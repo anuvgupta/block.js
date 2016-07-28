@@ -48,10 +48,10 @@ block.js is a lightweight JavaScript library for generating HTML blocks
     - Lines 15-18 - HTML Body
         - `onload = 'load()` calls load function to generate blocks
         - body tag left blank (`fill` method overwrites contents, including comments)
+  
+# Tutorials and Documentation
 
-
-| Compatible with |
-|:---:|
-| <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/jQuery.png' width = '60px'/> |
-||
-| <img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/html5.png' width = '60px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/css3.png' width = '60px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/js5.png' width = '60px'/> |
+# Compatibility
+&nbsp;&nbsp;&nbsp;&nbsp;<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/angular.png' width = '70px'/>
+<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/jQuery.png' width = '70px'/>
+<img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/html5.png' width = '670px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/css3.png' width = '70px'/><img src = 'https://raw.githubusercontent.com/anuvgupta/block.js/img/js5.png' width = '70px'/>
