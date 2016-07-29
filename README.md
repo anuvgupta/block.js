@@ -74,5 +74,5 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[<img src = 'http://anuvgupta.tk/block.js/img/jQueryB.png' width = '70px'/>](https://jquery.com/) [<img src = 'http://anuvgupta.tk/block.js/img/html5.png' width = '70px'/>](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [<img src = 'http://anuvgupta.tk/block.js/img/css3.png' width = '70px'/>](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [<img src = 'http://anuvgupta.tk/block.js/img/js5.png' width = '70px'/>]
-[<img src = 'http://anuvgupta.tk/block.js/img/angular.png' width = '70px'/>](https://angularjs.org/)
+&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo.70/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo.70/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo.70/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript 6](http://anuvgupta.tk/block.js/img/logo.70/js5.png)](http://es6-features.org/#Constants)
+[![AngularJS](http://anuvgupta.tk/block.js/img/logo.70/angular.png)](https://angularjs.org/)
