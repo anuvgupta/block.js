@@ -6,7 +6,7 @@ Tired of writing `<html>` tags? Lost and confused in a web of `#css` selectors?
 Just want to create *simple, aesthetic, stress-free* web pages? **block.js is for you!**
 
 ## Philosophy
-block.js splits web design into three main divisions: 
+block.js splits web design into three main divisions:
 
 1. Content Creation  
   - Adding text to fill blocks  
@@ -66,7 +66,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     - Lines 15-18 - HTML Body
         - `onload = 'load()` calls load function to generate blocks
         - body tag left blank (`fill` method overwrites contents, including comments)
-  
+
 ## Further Tutorials
 &nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js/tutorials)
 
@@ -74,7 +74,5 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;<img src = 'http://anuvgupta.tk/block.js/img/jQueryB.png' width = '70px'/>
-<img src = 'http://anuvgupta.tk/block.js/img/html5.png' width = '70px'/><img src = 'http://anuvgupta.tk/block.js/img/css3.png' width = '70px'/><img src = 'http://anuvgupta.tk/block.js/img/js5.png' width = '70px'/>
-<img src = 'http://anuvgupta.tk/block.js/img/angular.png' width = '70px'/>
-
+&nbsp;&nbsp;&nbsp;&nbsp;[<img src = 'http://anuvgupta.tk/block.js/img/jQueryB.png' width = '70px'/>](https://jquery.com/) [<img src = 'http://anuvgupta.tk/block.js/img/html5.png' width = '70px'/>](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [<img src = 'http://anuvgupta.tk/block.js/img/css3.png' width = '70px'/>](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [<img src = 'http://anuvgupta.tk/block.js/img/js5.png' width = '70px'/>]
+[<img src = 'http://anuvgupta.tk/block.js/img/angular.png' width = '70px'/>](https://angularjs.org/)
