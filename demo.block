@@ -1,0 +1,22 @@
+var blocks = {
+demo: `
+main
+    text1
+        val Hello World
+        css
+            font 30px Helvetica
+            color blue
+    image1
+        src https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png
+        height 30px
+        width 30px
+        css
+            opacity 0.5
+    input1
+        placeholder hello
+        css
+            border none
+            outline none
+            background-color #452565
+ `
+ };

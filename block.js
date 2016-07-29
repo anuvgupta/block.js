@@ -1,6 +1,7 @@
 var Block;
 Block = function () {
     var element;
+    var marking;
     // if (typeof arguments[0] === 'object' && arguments[0] instanceof Node && arguments[0] instanceof Element) {
     //     element = target;
     // }
@@ -13,26 +14,48 @@ Block = function () {
         return reserved;
     };
     var inArr = function (e, a) { return a.indexOf(e.trim().toLowerCase()) > -1; };
+    var parseBlock = function (data) {
+        var block;
+        console.log((data.match(new RegExp('    t', 'g')) || []).length);
+        return block;
+    };
     var block = {
         block: true,
-        add: function (b) {
-            if (b.block) element.appendChild(b.node());
-            else element.appendChild(Block.apply(Block, arguments).node());
+        add: function (m, b) {
+            var args = [].slice.call(arguments);
+            if (!b.block) b = Block.apply(Block, args.slice(1));
+            b.mark(m);
+            element.appendChild(b.node());
+            return this;
+        },
+        addTo: function (e, m, b) {
+            if (e.block) {
+                var args = [].slice.call(arguments);
+                if (!b.block) b = Block.apply(Block, args.slice(2));
+                b.mark(m);
+                element.appendChild(b.node());
+            }
             return this;
         },
         class: function () {
             if (arguments[0] != null && (typeof arguments[0] === 'string' || arguments[0] instanceof String)) {
                 element.className += ' ' + arguments[0];
                 return this;
-            }
-            else return element.className;
+            } else return element.className;
         },
         id: function () {
             if (arguments[0] != null && (typeof arguments[0] === 'string' || arguments[0] instanceof String)) {
                 element.id = arguments[0];
                 return this;
-            }
-            else return element.id;
+            } else return element.id;
+        },
+        mark: function () {
+            if (arguments[0] != null && (typeof arguments[0] === 'string' || arguments[0] instanceof String)) {
+                if (arguments[0] == 'css' || arguments[0] == 'val')
+                    console.warn('[BLOCK] cannot mark as \'' + arguments[0] + '\' (reserved)');
+                else marking = arguments[0];
+                return this;
+            } else return marking;
         },
         attribute: function (a, v) {
             element.setAttribute(a, v);
@@ -49,7 +72,22 @@ Block = function () {
             }
         },
         $: function () {
-            if (jQuery != null && jQuery != undefined && typeof jQuery != 'undefined' && window.jQuery) return jQuery(element);
+            if (jQuery != null && jQuery != undefined && typeof jQuery != 'undefined' && window.jQuery) {
+                var that = this;
+                var $ = jQuery(element);
+                $.block = function () { return that; };
+                return $;
+            }
+        },
+        load: function (f) {
+            var data;
+            var g = arguments[1];
+            var a = arguments[2];
+            if (g === true) {
+
+            } else data = blocks[f];
+            parseBlock(data);
+            return this;
         }
     };
     var type = arguments[0];
@@ -97,14 +135,13 @@ Block = function () {
         case 'block':
             element = node('div');
             element.className = 'block';
-            var content = node('div');
-            content.className = 'content';
-            block.add = function (b) {
-                if (b.block) content.appendChild(b.node());
-                else content.appendChild(Block.apply(Block, arguments).node());
-                return this;
+            var content = Block('div').class('content');
+            block.add = function (m, b) {
+                var args = [].slice.call(arguments);
+                args.unshift(content);
+                return block.addTo.apply(block, args);
             };
-            element.appendChild(content);
+            element.appendChild(content.node());
             break;
         default:
             if (inArr(type, tags)) element = node(type);
