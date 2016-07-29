@@ -74,5 +74,5 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuvgupta.tk/block.js/img/logo/75/js5.png)](http://es6-features.org/#Constants)
+&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuvgupta.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
 [![AngularJS](http://anuvgupta.tk/block.js/img/logo/75/angular.png)](https://angularjs.org/)
