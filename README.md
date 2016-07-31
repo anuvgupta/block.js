@@ -8,15 +8,18 @@ Just want to create *simple, aesthetic, stress-free* web pages? **block.js is fo
 ## Philosophy
 block.js splits web design into three main divisions:
 
-1. Content Creation  
-  - Adding text to fill blocks  
-  - Linking images/icons for visuals  
-2. Layout and Style
-  - Modifying block appearance
-  - Defining positions of blocks
+1. Block Layout
+    - Defining tree of blocks
+    - Manipulating blocks (no DOM!)
+2. Content Creation  
+    - Adding text to fill blocks  
+    - Linking images/icons for visuals  
+    - Presentation and Style
+        - Modifying block appearance
+        - Defining positions of blocks
 3. Markup Generation
-  - Binding content and style
-  - Generating HTML blocks
+    - Binding content and style
+    - Generating HTML blocks
 
 We believe that you only need to worry about **content** and **layout**. *Leave markup generation to us.*
 &nbsp;  
