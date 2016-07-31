@@ -2,23 +2,9 @@
 <html>
     <head>
         <title>block.js demo</title>
-        <script src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
         <script src = 'block.js'></script>
-        <script src = 'defaultblocks.js'></script>
-        <script src = 'localdemo_es6.block'></script>
-        <script type = 'text/javascript'>
-          function load() {
-            // generate html blocks
-            Block('block', 'demo')
-                .add('text', 'text1')
-                .add('break')
-                //.add('image1', 'image')
-                .add('break')
-                //.add('input1', 'input')
-            .load('demo', true, false)
-            .fill(document.body);
-          }
-        </script>
+        <script src = 'blocks.js'></script>
+        <script src = 'demo.js'></script>
     </head>
     <body onload = 'load()'>
         <!-- blocks are placed here -->

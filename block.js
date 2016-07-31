@@ -58,7 +58,7 @@ Block = function () {
         for (i in lines) { // for each line
             var line = lines[i]; // get line
             var first = line.search(/\S/); // get position of first non-space char in line
-            if (first == -1) continue; // if line contains only space, go to next line
+            if (first == -1 || line.substring(first, first + 2) == '//') continue; // if line contains only space, or starts with comment, go to next line
             line = line.substring(0, first) + line.substring(first).trim(); // trim extra space off right end of line
             var indents = (line.match(new RegExp(indentation, 'g')) || []).length; // count indentation level of line
             line = line.trim(); // remove indentation
@@ -113,7 +113,6 @@ Block = function () {
             else var b = args[0];
             children[b.mark()] = b;
             element.appendChild(b.node());
-            console.log(children);
             return this; // chain
         },
         class: function () { // add to or get current block's DOM class
@@ -164,7 +163,6 @@ Block = function () {
             } else console.log('jQuery not detected');
         },
         loadData: function (blockdata) { // load blockdata into current block and its children
-
             var data = { };
             for (key in blockdata) {
                 if (blockdata.hasOwnProperty(key)) {
@@ -202,7 +200,6 @@ Block = function () {
             }
         },
         load: function (f) { // load blockdata file from different sources *!* LINK IMPORT MEANT TO BE ADDED NEXT *!*
-            console.log(children);
             var b = this;
             var next = function (data) { // code to run when blockdata is retrieved
                 data = data.replace(/\r\n|\r|\n/g, '\n'); // clean up carriage returns
@@ -244,15 +241,18 @@ Block = function () {
         var content = Block('div').class('content');
         block.add = function () {
             var args = [].slice.call(arguments);
-            content.add.apply(content, arguments);
-            return this;
+            if (!isType(args[0], 'undefined') && !isType(args[0], 'null') && !args[0].block)
+                var b = Block.apply(Block, args);
+            else var b = args[0];
+            children[b.mark()] = b;
+            content.node().appendChild(b.node());
+            return this; // chain
         };
         element.appendChild(content.node());
     } else { // custom defined blocks
-        if (__blocks[type] != null) block = __blocks[type].create();
+        if (__blocks[type] != null) element = __blocks[type].create().node();
         else element = node(type);
     }
-
     return block;
 };
 // add default block style to document
@@ -267,6 +267,8 @@ s.innerHTML = '.block { ' +
     '.block .content { ' +
     	'display: table-cell; ' +
     	'vertical-align: middle; ' +
+        'text-align: center; ' +
+        'margin: 0 auto; ' +
     '}';
 document.getElementsByTagName('head')[0].appendChild(s);
 s = null;

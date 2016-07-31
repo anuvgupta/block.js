@@ -5,15 +5,20 @@ demo
         css
             font 30px Helvetica
             color blue
-    image1
-        src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg
-        height 30px
-        width 30px
-        css
-            opacity 0.5
+    subBlock
+        image1
+            src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg
+            width 500px
+            height 400px
+            css
+                display inline-block
     input1
         placeholder hello
         css
             border none
             outline none
             background-color #452565
+    br1
+        val 3
+    br2
+        val 2
