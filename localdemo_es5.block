@@ -1,0 +1,21 @@
+var customBlockData = { demo:
+'    *\n' +
+'demo\n' +
+'    text1\n' +
+'        val Hello World\n' +
+'        css\n' +
+'            font 30px Helvetica\n' +
+'            color blue\n' +
+'    image1\n' +
+'        src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg\n' +
+'        height 30px\n' +
+'        width 30px\n' +
+'        css\n' +
+'            opacity 0.5\n' +
+'    input1\n' +
+'        placeholder hello\n' +
+'        css\n' +
+'            border none\n' +
+'            outline none\n' +
+'            background-color #452565'
+ };

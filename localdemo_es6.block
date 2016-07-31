@@ -1,4 +1,5 @@
-    *
+var customBlockData = { demo:
+`    *
 demo
     text1
         val Hello World
@@ -17,3 +18,5 @@ demo
             border none
             outline none
             background-color #452565
+`
+ };
