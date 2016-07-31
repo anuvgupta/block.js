@@ -1,3 +1,9 @@
+# IMPORTANT UPDATE
+This is block.js v1 (outdated)  
+**Refer to branch v2 [here](https://github.com/anuvgupta/block.js)**
+&nbsp;  
+&nbsp;  
+&nbsp;  
 # block.js
 block.js is a lightweight JavaScript library for generating HTML blocks.  
 &nbsp;&nbsp;&nbsp;&nbsp;<sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
