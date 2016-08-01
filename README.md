@@ -25,6 +25,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;  
 
 ## Getting Started
+*Get started in just* **5** *easy steps*  
 1. Clone this repository into a folder. Now you have two options:
     1. Load this code into a web server (ie. `localhost/block.js/demo/demo.html`)
         - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is supported, as well as synchronous requests.
@@ -115,26 +116,16 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Copy this repository into your server's equivalent of a `www` or `htdocs` directory
         - Start your server and go to `http://` (your IP/hostname+port, ie. `localhost` or `127.0.0.1:80`) `/block.js/demo/demo.html` in your browser
     - If you are using local files
-        - Based on EcmaScript support 5 or 6 (choose one), add this line before including `demo.js`: ```html <script src = 'localdemo_es5.block'></script>``` or ```html <script src = 'localdemo_es6.block'></script>```
+        - Based on EcmaScript support 5 or 6 (choose one), add this line before including `demo.js`: `<script src = 'localdemo_es5.block'></script>` or `<script src = 'localdemo_es6.block'></script>`
         - Open `demo/demo.js` and remove `true` from line 13, so it reads `.load('demo');`
         - Open `demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
-        - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whatever `localdemo` you are using and change image1's src to an image you know exists)
-5. Explanation
-    - Lines 1-6 - HTML Head
-        - 1-2: HTML5 doctype declaration
-        - 3-4: head block with title
-        - 5: link to block.js stylesheet
-        - 6: script link to block.js
-    - Lines 7-14 - JavaScript
-        - 8: declare `load()` function
-        - 10: `Block()` generates a new HTML block
-        - 11: add a text block, with value `Hello World`, to the Block generated in line 10
-        - 12: "fill" the body node with the Block generated in line 10 (modified in line 11)
-        - *Lack of semicolons `;` is due to command chaining (most functions of a Block return that Block)*
-    - Lines 15-18 - HTML Body
-        - `onload = 'load()` calls load function to generate blocks
-        - body tag left blank (`fill` method overwrites contents, including comments)
+        - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whichever `localdemo` you are using and change image1's src to an image you know exists)
+5. Explanation (for further explanation of the code, read the comments in each file):
+    - `blocks.js` tells `block.js` how to create and load data into blocks of type 'break', 'text', and 'image'
+    - `demo/demo.js` tells `block.js` what blocks to create (based on `blocks.js` and HTMl tags) and in what order
+    - `demo/demo.block` (or one of the `localdemo` files) tells `block.js` what content/data to load into the blocks created by `demo.js` (text, css, images)
+    - For more information on defining custom blocks, creating and manipulating blocks, and content binding, refer below to further tutorials and documentation
 
 ## Further Tutorials
 &nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js/tutorials)
