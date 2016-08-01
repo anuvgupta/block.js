@@ -171,9 +171,9 @@ Block = function () {
         },
         css: function ($property) { // set or get value of css property of current block
             if (isType($property, 'object')) {
-                for ($prop in $property) {
-                    if ($property.hasOwnProperty($prop) && isType($property[$prop], 'string'))
-                        element.style[$prop] = $property[$prop];
+                for ($p in $property) {
+                    if ($property.hasOwnProperty($p) && isType($property[$p], 'string'))
+                        element.style[$p] = $property[$p];
                 }
             } else if (isType($property, 'string')) {
                 $value = arguments[1];
@@ -338,9 +338,9 @@ Block = function () {
     return block;
 };
 // add default block style to document
-var $style = document.createElement('style');
-$style.type = 'text/css';
-$style.innerHTML = '.block { ' +
+var $s = document.createElement('style');
+$s.type = 'text/css';
+$s.innerHTML = '.block { ' +
     	'width: 100%; ' +
     	'height: 100%; ' +
     	'display: table; ' +
@@ -352,5 +352,5 @@ $style.innerHTML = '.block { ' +
         'text-align: center; ' +
         'margin: 0 auto; ' +
     '}';
-document.getElementsByTagName('head')[0].appendChild($style);
-$style = null;
+document.getElementsByTagName('head')[0].appendChild($s);
+$s = null;
