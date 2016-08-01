@@ -14,14 +14,17 @@ demo
             css
                 display inline-block
     textbox1
-        placeholder hello
+        placeholder input
         type text
         css
             border none
             outline none
             background-color #DDDDDD
             text-align center
-            font-size 50px
+            font-size 38px
             color grey
+            width 500px
+            height 65px
+            border-radius 8px
     br1
         val 2
