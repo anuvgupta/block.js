@@ -4,18 +4,30 @@ var customBlockData = { demo:
 '    text1\n' +
 '        val Hello World\n' +
 '        css\n' +
-'            font 30px Helvetica\n' +
+'            font 30px Helvetica, Arial, sans-serif\n' +
 '            color blue\n' +
-'    image1\n' +
-'        src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg\n' +
-'        height 30px\n' +
-'        width 30px\n' +
-'        css\n' +
-'            opacity 0.5\n' +
-'    input1\n' +
-'        placeholder hello\n' +
+'    imageBlock\n' +
+'        image1\n' +
+'            src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg\n' +
+'            title doggo\n' +
+'            width 500px\n' +
+'            height 300px\n' +
+'            css\n' +
+'                display inline-block\n' +
+'                border-radius 20px\n' +
+'    textbox1\n' +
+'        placeholder input\n' +
+'        type text\n' +
 '        css\n' +
 '            border none\n' +
 '            outline none\n' +
-'            background-color #452565'
+'            background-color #DDDDDD\n' +
+'            text-align center\n' +
+'            font-size 38px\n' +
+'            color grey\n' +
+'            width 500px\n' +
+'            height 65px\n' +
+'            border-radius 8px\n' +
+'    br1\n' +
+'        val 2\n'
  };
