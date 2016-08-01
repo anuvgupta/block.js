@@ -13,6 +13,7 @@ demo
             height 300px
             css
                 display inline-block
+                border-radius 20px
     textbox1
         placeholder input
         type text
