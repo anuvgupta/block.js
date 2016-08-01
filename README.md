@@ -10,7 +10,7 @@ block.js splits web design into three main divisions:
 
 1. Block Layout
     - Defining tree of blocks
-    - Manipulating blocks (no DOM!)
+    - Manipulating blocks (no DOM)
 2. Content Creation  
     - Adding text to fill blocks  
     - Linking images/icons for visuals  
@@ -25,7 +25,8 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;  
 
 ## Getting Started
-*Get started in just* **5** *easy steps*  
+*Get started in just* ***5*** *easy steps*  
+
 1. Clone this repository into a folder. Now you have two options:
     1. Load this code into a web server (ie. `localhost/block.js/demo/demo.html`)
         - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is supported, as well as synchronous requests.
