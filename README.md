@@ -45,7 +45,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
             - (See here for more info)[http://caniuse.com/#feat=xhr2]
             - New versions of IE7+ support AJAX, and block.js supports AJAX for IE5 and IE6
     2. Work on the code locally (ie. `file:///Users/admin/Documents/GitHub/block.js/demo/demo.html`)
-        - Only use this option if you don't have a web server readily available
+        - Only use this option if you don't have a web server readily available!
         - Blockfiles are not true blockfiles in this case. They are JavaScript scripts included with a `<script>` tag, which set a variable to the block content data. This works, but is synchronous (detrimental to user experience)
         - This practice does not model the separation philosophy of the block-content-markup schema
         - Less browser support (ES5 versus ES6)
@@ -80,28 +80,26 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
                  `};
                 ```
 
-                The ``` ` ``` symbol denotes a multiline string literal; newlines `\n` are added automatically
-    3. In short, USE A WEB SERVER! It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), ruby [WEBrick](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html)s or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html).
+                The ``` ` ``` symbol denotes a multiline string literal, and newlines `\n` are added automatically
+    3. In short, ***use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Just do it, and reduce hassle when you code.
 2. With your favorite text editor, open `demo/demo.html` - it should have following contents:
 
     ```html
-    <!DOCTYPE html>  
+    <!DOCTYPE html>
     <html>
         <head>
             <title>block.js demo</title>
-            <link rel = 'stylesheet' type = 'text/css' href = './block.css'>
-            <script type = 'text/javascript' src = './block.js'></script>
-            <script type = 'text/javascript'>
-              function load() {
-                // generate html blocks
-              }
-            </script>
+            <script src = '../block.js'></script>
+            <script src = '../blocks.js'></script>
+            <script src = 'demo.js'></script>
         </head>
         <body onload = 'load()'>
             <!-- blocks are placed here -->
         </body>
     </html>
     ```
+
+    A quick note: **This is all the html that you will ever need!** <sub>goodbye, `<tags>`!</sub>
 3. Add the following code to the `function load()` JavaScript block (after the comment):
 
     ```javascript
