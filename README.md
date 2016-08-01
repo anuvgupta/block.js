@@ -80,7 +80,8 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
                  `};
                 ```
 
-    3. In short, USE A WEB SERVER! It can be a simple (Apache)[https://httpd.apache.org/] server, full-blown (XAMPP)[https://www.apachefriends.org/index.html], ruby (WEBrick)[http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html] or (Rails)[http://rubyonrails.org/], or a tiny python (SimpleHTTPServer)[https://docs.python.org/2/library/simplehttpserver.html].
+                The ``` ` ``` symbol denotes a multiline string literal; newlines `\n` are added automatically
+    3. In short, USE A WEB SERVER! It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), ruby [WEBrick](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html)s or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html).
 2. With your favorite text editor, open `demo/demo.html` - it should have following contents:
 
     ```html
