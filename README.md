@@ -29,7 +29,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 
 1. Clone this repository into a folder. Now you have two options:
     1. Load this code into a web server (ie. `localhost/block.js/demo/demo.html`)
-        - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is supported, as well as synchronous requests.
+        - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is also supported, as well as synchronous requests.
         - Blockfiles look like true blockfiles (read #2 to understand why this is important).  
           Example taken from `demo/demo.block`:
 
@@ -44,15 +44,15 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
             ```
 
         - Works on all modern and most old browsers
-            - [See here for more info](http://caniuse.com/#feat=xhr2)
+            - [See here for more info](http://caniuse.com/#feat=xhr2) on XMLHttpRequest cross-browser support
             - New versions of IE7+ support AJAX, and block.js supports AJAX for IE5 and IE6
-        - Continue with this tutorial!
+        - Continue with this tutorial
     2. Work on the code locally (ie. `file:///Users/admin/Documents/GitHub/block.js/demo/demo.html`)
         - Only use this option if you don't have a web server readily available!
         - Blockfiles are not true blockfiles in this case. They are JavaScript scripts included with a `<script>` tag, which set a variable to the block content data. This works, but is synchronous (detrimental to user experience)
         - This practice does not model the separation philosophy of the block-content-markup schema
         - Less browser support (ES5 versus ES6)
-            - If you wish to support new as well as old browsers, you will have to use EcmaScript5, which makes it hard to create multiline strings.  
+            - If you wish to support new as well as old browsers, you will have to use [EcmaScript5](http://caniuse.com/#feat=es5), which makes it hard to create multiline strings.  
               Example taken from `demo/localdemo_es5.block`:
 
                  ```javascript
@@ -68,7 +68,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
                 ```
 
                 One must use `+` for concatenation and `\n` for newlines repeatedly
-            - EcmaScript6 (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.  
+            - [EcmaScript6](http://caniuse.com/#search=es6) (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.  
               Example taken from `demo/localdemo_es6.block`:
 
                 ```javascript
@@ -103,7 +103,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     </html>
     ```
 
-    A quick note: **This is all the html that you will ever need!** &nbsp; <sub>goodbye, `<tags>`!</sub>
+    A quick note: **This is all the HTML that you will ever need!** &nbsp; <sub>goodbye, `<tags>`!</sub>
 3. A quick rundown of the purpose each file in the repository:
     - `block.js` the base code for the block.js library
     - `blocks.js` the code for defining and loading custom blocks
@@ -117,14 +117,15 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Copy this repository into your server's equivalent of a `www` or `htdocs` directory
         - Start your server and go to `http://` (your IP/hostname+port, ie. `localhost` or `127.0.0.1:80`) `/block.js/demo/demo.html` in your browser
     - If you are using local files
-        - Based on EcmaScript support 5 or 6 (choose one), add this line before including `demo.js`: `<script src = 'localdemo_es5.block'></script>` or `<script src = 'localdemo_es6.block'></script>`
+        - Based on EcmaScript support 5 or 6 (choose one), add this line before including `demo.js`:  
+          `<script src = 'localdemo_es5.block'></script>` or `<script src = 'localdemo_es6.block'></script>`
         - Open `demo/demo.js` and remove `true` from line 13, so it reads `.load('demo');`
         - Open `demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
         - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whichever `localdemo` you are using and change image1's src to an image you know exists)
 5. Explanation (for further explanation of the code, read the comments in each file):
     - `blocks.js` tells `block.js` how to create and load data into blocks of type 'break', 'text', and 'image'
-    - `demo/demo.js` tells `block.js` what blocks to create (based on `blocks.js` and HTMl tags) and in what order
+    - `demo/demo.js` tells `block.js` what blocks to create (based on `blocks.js` and HTML tags) and in what order
     - `demo/demo.block` (or one of the `localdemo` files) tells `block.js` what content/data to load into the blocks created by `demo.js` (text, css, images)
     - For more information on defining custom blocks, creating and manipulating blocks, and content binding, refer below to further tutorials and documentation
 
