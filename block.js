@@ -160,7 +160,7 @@ Block = function () {
                 var $ = jQuery(element);
                 $.block = function () { return block; };
                 return $;
-            } else console.log('jQuery not detected');
+            } else console.warn('jQuery not detected');
         },
         loadData: function (blockdata) { // load blockdata into current block and its children
             var data = { };
@@ -215,7 +215,7 @@ Block = function () {
             var g = arguments[1]; // use ajax to get raw blockdata
             var a = arguments[2]; // use asynchronous request
             if (a == null || a == undefined) a = true; // default to async
-            if (g === 'jquery') { // if jQuery request desired
+            if (isType(g, 'string') && g.toLowerCase() === 'jquery') { // if jQuery request desired
                 if (__$block) { // if jQuery present
                     jQuery.ajax({ // use jQuery ajax
                         url: f + '.block',
@@ -223,7 +223,7 @@ Block = function () {
                         async: a,
                         success: function (d) { next(d); }
                     });
-                } else console.log('jQuery not detected');
+                } else console.warn('jQuery not detected');
             } else if (g === true) { // if normal request desired
                 var xhr; // use xhr object
                 if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
