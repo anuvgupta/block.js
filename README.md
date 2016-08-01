@@ -30,15 +30,17 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is supported, as well as synchronous requests.
         - Blockfiles look like true blockfiles (read #2 to understand why this is important).
         - Example taken from `demo/demo.block`:
-            ```
-                *
-            demo
-                text1
-                    val Hello World
-                    css
-                        font 30px Helvetica
-                        color blue
-            ```
+        
+                ```
+                    *
+                demo
+                    text1
+                        val Hello World
+                        css
+                            font 30px Helvetica
+                            color blue
+                ```
+                
         - Works on all modern and most old browsers
             - (See here for more info)[http://caniuse.com/#feat=xhr2]
             - New versions of IE7+ support AJAX, and block.js supports AJAX for IE5 and IE6
@@ -49,31 +51,35 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Less browser support (ES5 versus ES6)
             - If you wish to support new as well as old browsers, you will have to use EcmaScript5, which makes it hard to create multiline strings.
             - Example taken from `demo/localdemo_es5.block`:
-                ```javascript
-                var customBlockData = { demo:
-                '    *\n' +
-                'demo\n' +
-                '    text1\n' +
-                '        val Hello World\n' +
-                '        css\n' +
-                '            font 30px Helvetica\n' +
-                '            color blue\n'
-                 };
-                ```
+            
+                    ```javascript
+                    var customBlockData = { demo:
+                    '    *\n' +
+                    'demo\n' +
+                    '    text1\n' +
+                    '        val Hello World\n' +
+                    '        css\n' +
+                    '            font 30px Helvetica\n' +
+                    '            color blue\n'
+                     };
+                    ```
+                    
                 One must use `+` for concatenation and `\n` for newlines repeatedly
             - EcmaScript6 (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.
             - Example taken from `demo/localdemo_es6.block`:
-            ```javascript
-            var customBlockData = { demo:
-            `    *
-            demo
-                text1
-                    val Hello World
-                    css
-                        font 30px Helvetica
-                        color blue
-             `};
-            ```
+            
+                ```javascript
+                var customBlockData = { demo:
+                `    *
+                demo
+                    text1
+                        val Hello World
+                        css
+                            font 30px Helvetica
+                            color blue
+                 `};
+                ```
+                
     3. In short, USE A WEB SERVER! It can be a simple (Apache)[https://httpd.apache.org/] server, full-blown (XAMPP)[https://www.apachefriends.org/index.html], ruby (WEBrick)[http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html] or (Rails)[http://rubyonrails.org/], or a tiny python (SimpleHTTPServer)[https://docs.python.org/2/library/simplehttpserver.html].
 2. With your favorite text editor, open `demo/demo.html` - it should have following contents:
 
