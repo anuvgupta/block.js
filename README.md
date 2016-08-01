@@ -28,7 +28,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 1. Clone this repository into a folder. Now you have two options:
     1. Load this code into a web server (ie. `localhost/block.js/demo/demo.html`)
         - This is the best option! Block content data is stored in blockfiles, and loading them with AJAX get requests is a best practice for enhanced user experience. jQuery AJAX is supported, as well as synchronous requests.
-        - Blockfiles look like true blockfiles (read #2 to understand why this is important).
+        - Blockfiles look like true blockfiles (read #2 to understand why this is important).  
           Example taken from `demo/demo.block`:
 
             ```
@@ -49,7 +49,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Blockfiles are not true blockfiles in this case. They are JavaScript scripts included with a `<script>` tag, which set a variable to the block content data. This works, but is synchronous (detrimental to user experience)
         - This practice does not model the separation philosophy of the block-content-markup schema
         - Less browser support (ES5 versus ES6)
-            - If you wish to support new as well as old browsers, you will have to use EcmaScript5, which makes it hard to create multiline strings.
+            - If you wish to support new as well as old browsers, you will have to use EcmaScript5, which makes it hard to create multiline strings.  
               Example taken from `demo/localdemo_es5.block`:
 
                  ```javascript
@@ -65,7 +65,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
                 ```
 
                 One must use `+` for concatenation and `\n` for newlines repeatedly
-            - EcmaScript6 (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.
+            - EcmaScript6 (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.  
               Example taken from `demo/localdemo_es6.block`:
 
                 ```javascript
