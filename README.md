@@ -31,15 +31,15 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Blockfiles look like true blockfiles (read #2 to understand why this is important).
         - Example taken from `demo/demo.block`:
         
-                ```
-                    *
-                demo
-                    text1
-                        val Hello World
-                        css
-                            font 30px Helvetica
-                            color blue
-                ```
+            ```
+                *
+            demo
+                text1
+                    val Hello World
+                    css
+                        font 30px Helvetica
+                        color blue
+            ```
                 
         - Works on all modern and most old browsers
             - (See here for more info)[http://caniuse.com/#feat=xhr2]
@@ -52,17 +52,17 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
             - If you wish to support new as well as old browsers, you will have to use EcmaScript5, which makes it hard to create multiline strings.
             - Example taken from `demo/localdemo_es5.block`:
             
-                    ```javascript
-                    var customBlockData = { demo:
-                    '    *\n' +
-                    'demo\n' +
-                    '    text1\n' +
-                    '        val Hello World\n' +
-                    '        css\n' +
-                    '            font 30px Helvetica\n' +
-                    '            color blue\n'
-                     };
-                    ```
+                 ```javascript
+                var customBlockData = { demo:
+                '    *\n' +
+                'demo\n' +
+                '    text1\n' +
+                '        val Hello World\n' +
+                '        css\n' +
+                '            font 30px Helvetica\n' +
+                '            color blue\n'
+                 };
+                ```
                     
                 One must use `+` for concatenation and `\n` for newlines repeatedly
             - EcmaScript6 (supported by all modern browsers) supports a multiline string literal expression, but may not be supported in older browsers.
