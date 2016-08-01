@@ -35,4 +35,4 @@ Block('image', function () {
     else element.style.height = 'auto';
     if (width !== null) element.style.width = width;
     else element.style.width = 'auto';
-})
+});
