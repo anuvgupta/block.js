@@ -38,20 +38,19 @@ Block('image', function () { //function to create image block
     //until data is loaded, image is blank, so do nothing
     return block; //return the newly modified block
 }, function (block, data) { //function to load data into image block
-    var element = block.node(); //get the block's element
     var src = data('src'); //get data 'src' (image source)
     var height = data('height'); //get data 'height'
     var width = data('width'); //get data 'width'
     if (src != null) { //if src is not null
         //load background image
-        element.style.backgroundImage = "url('" + src + "')";
-        element.style.backgroundRepeat = 'no-repeat';
-        element.style.backgroundSize = 'contain';
+        block.css('background-image', "url('" + src + "')")
+            .css('background-repeat', 'no-repeat')
+            .css('background-size', 'contain');
     }
     //if height is not null, set image div height
-    if (height !== null) element.style.height = height;
-    else element.style.height = 'auto';
+    if (height !== null) block.css('height', height);
+    else block.css('height', 'auto');
     //if width is not null, set image div width
-    if (width !== null) element.style.width = width;
-    else element.style.width = 'auto';
+    if (width !== null) block.css('width', width);
+    else block.css('width', 'auto');
 });
