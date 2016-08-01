@@ -10,5 +10,5 @@ function load() {
         .add('break')
         .add('input', 'textbox1')
     .fill(document.body)
-    .load('demo', true);
+    .load(null, 'demo', true);
 }

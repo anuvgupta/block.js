@@ -119,7 +119,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     - If you are using local files
         - Based on EcmaScript support 5 or 6 (choose one), add this line before including `demo.js`:  
           `<script src = 'localdemo_es5.block'></script>` or `<script src = 'localdemo_es6.block'></script>`
-        - Open `demo/demo.js` and remove `true` from line 13, so it reads `.load('demo');`
+        - Open `demo/demo.js` and remove `true` from line 13, so it reads `.load(null, 'demo');`
         - Open `demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
         - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whichever `localdemo` you are using and change image1's src to an image you know exists)
