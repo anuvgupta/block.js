@@ -6,15 +6,18 @@
 
 var __blocks = {  };
 var __$block = false;
-try { __$block = isType(jQuery, 'function') || isType(window.jQuery, 'function'); }
+try { __$block = (typeof jQuery == 'function') || (typeof window.jQuery == 'function'); }
 catch (err) { __$block = false; }
 var Block;
 Block = function () {
     // declare/initialize private instance fields
     var block;
+    var addblock;
     var element;
+    var events = { };
     var type = arguments[0];
     var marking = arguments[1];
+    var parent;
     var children = { };
     // if new blocktype is being declared, add callbacks to __blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
@@ -106,14 +109,27 @@ Block = function () {
     // declare/initialize public block object
     block = {
         block: true, // block is a block
-        add: function () { // add block to current block
+        add: function () { // add block to current block (or block specified by setAdd)
             var args = [].slice.call(arguments);
             if (!isType(args[0], 'undefined') && !isType(args[0], 'null') && !args[0].block)
                 var b = Block.apply(Block, args);
             else var b = args[0];
             children[b.mark()] = b;
-            element.appendChild(b.node());
+            b.parent(this);
+            if (isType(addblock, 'object') && addblock.block) addblock.add(b);
+            else element.appendChild(b.node());
             return this; // chain
+        },
+        setAdd: function (b) { // set block to which aadd method should add blocks
+            if (isType(b, 'object') && b.block) addblock = b;
+            return this;
+        },
+        type: function () { // set or get type of block
+            var t = arguments[0];
+            if (isType(t, 'string')) {
+                if (!isType(__blocks[t], 'null') && !isType(__blocks[t], 'undefined')) type = t;
+            } else return type;
+            return this;
         },
         class: function () { // add to or get current block's DOM class
             if (isType(arguments[0], 'string')) {
@@ -143,6 +159,45 @@ Block = function () {
                 return this; // chain
             } else return element.getAttribute(a);
         },
+        css: function (p) {
+            if (isType(p, 'object')) {
+                for (prop in p) {
+                    if (p.hasOwnProperty(prop) && isType(p[prop], 'string'))
+                        element.style[prop] = p[prop];
+                }
+            } else if (isType(p, 'string')) {
+                v = arguments[1];
+                if (isType(v, 'string')) element.style[p] = v;
+                else return element.style[p];
+            }
+            return this;
+        },
+        on: function (e, f) {
+            if (isType(e, 'string') && isType(f, 'function')) {
+                if (isType(arguments[0], 'string')) events[e + '_' + arguments[0]] = f;
+                element.addEventListener(e, f);
+            }
+            return this;
+        },
+        off: function (e, id) {
+            var f = events[e + '_' + id];
+            if (isType(f, 'function')) element.removeEventListener(e, f);
+            return this;
+        },
+        child: function (n) {
+            if (isType(n, 'string')) {
+                if (n.includes('/')) return children[n.substring(0, n.indexOf('/'))].child(n.substring(n.indexOf('/') + 1));
+                else if(!isType(children[n], 'null') && !isType(children[n], 'undefined')) return children[n];
+                else return null;
+            } else return null;
+        },
+        parent: function () {
+            var p = arguments[0];
+            if (isType(p, 'object') && p.block && isType(parent, 'undefined') && isType(parent, 'null')) {
+                parent = p;
+                return this; // chain
+            } else return parent;
+        },
         node: function () { // get current block's node (DOM element)
             return element;
         },
@@ -162,7 +217,7 @@ Block = function () {
                 return $;
             } else console.warn('jQuery not detected');
         },
-        loadData: function (blockdata) { // load blockdata into current block and its children
+        data: function (blockdata) { // load blockdata into current block and its children
             var data = { };
             var style = { };
             for (key in blockdata) {
@@ -175,11 +230,12 @@ Block = function () {
                         delete blockdata.css;
                     } else {
                         if (isType(blockdata[key], 'object') && isType(children[key], 'object'))
-                            children[key].loadData(blockdata[key]);
+                            children[key].data(blockdata[key]);
                         else data[key] = blockdata[key];
                     }
                 }
             }
+
             if (isType(data, 'string') || isType(data, 'int')) data = { value: data };
             else if (isType(data, 'null') || !isType(data, 'object')) data = { };
 
@@ -187,14 +243,15 @@ Block = function () {
             if (type == 'block') {
                 // console.log('block');
             } else if (!isType(__blocks[type], 'undefined') && !isType(__blocks[type], 'null')) {
-                // console.log(this);
-                __blocks[type].load(this, function (key) {
+                var getData = function (key) {
                     if (isType(data[key], 'undefined') || isType(data[key], 'null')) return null;
                     else {
                         reserved.push(key);
                         return data[key];
                     }
-                });
+                };
+
+                __blocks[type].load(this, getData);
             }
             for (property in css) {
                 if (css.hasOwnProperty(property)) element.style[property] = css[property];
@@ -203,24 +260,25 @@ Block = function () {
                 if (data.hasOwnProperty(key) && !inArr(key, reserved)) element.setAttribute(key, data[key]);
             }
         },
-        load: function (f) { // load blockdata file from different sources *!* LINK IMPORT MEANT TO BE ADDED NEXT *!*
+        load: function (f, p) { // load blockdata file from different sources *!* LINK IMPORT MEANT TO BE ADDED NEXT *!*
             var b = this;
             var next = function (data) { // code to run when blockdata is retrieved
                 data = data.replace(/\r\n|\r|\n/g, '\n'); // clean up carriage returns
                 var indentation = data.substring(0, data.indexOf('*')); // find indentation
                 // parse raw blockdata into object and load into current block
                 var blockdata = parseBlock(data.substring(data.indexOf('*') + 2), indentation);
-                b.loadData(blockdata[marking]);
+                b.data(blockdata[marking]);
+                if (isType(f, 'function')) f(b);
             };
-            var g = arguments[1]; // use ajax to get raw blockdata
-            var a = arguments[2]; // use asynchronous request
+            var g = arguments[2]; // use ajax to get raw blockdata
+            var a = arguments[3]; // use asynchronous request
             if (a == null || a == undefined) a = true; // default to async
             if (isType(g, 'string') && g.toLowerCase() === 'jquery') { // if jQuery request desired
                 if (__$block) { // if jQuery present
                     jQuery.ajax({ // use jQuery ajax
                         url: f + '.block',
                         type: 'GET',
-                        async: a,
+                        async: p,
                         success: function (d) { next(d); }
                     });
                 } else console.warn('jQuery not detected');
@@ -231,9 +289,9 @@ Block = function () {
                 xhr.onreadystatechange = function () { // when data recieved, load blockdata
                     if (xhr.readyState == 4 && xhr.status == 200) next(xhr.responseText);
                 };
-                xhr.open('GET', f + '.block', a);
+                xhr.open('GET', p + '.block', a);
                 xhr.send();
-            } else next(customBlockData[f]); //if ajax not wanted, get from local file
+            } else next(customBlockData[p]); //if ajax not wanted, get from local file
             return this; // chain
         }
     };
@@ -243,19 +301,19 @@ Block = function () {
         element = node('div');
         element.className = 'block';
         var content = Block('div').class('content');
-        block.add = function () {
+        block.setAdd(content);
+        block.cssContent = function () {
             var args = [].slice.call(arguments);
-            if (!isType(args[0], 'undefined') && !isType(args[0], 'null') && !args[0].block)
-                var b = Block.apply(Block, args);
-            else var b = args[0];
-            children[b.mark()] = b;
-            content.node().appendChild(b.node());
-            return this; // chain
+            content.css.apply(content, args);
+            return block; // chain
         };
         element.appendChild(content.node());
     } else { // custom defined blocks
-        if (__blocks[type] != null) element = __blocks[type].create().node();
-        else element = node(type);
+        if (__blocks[type] != null) {
+            block = __blocks[type].create();
+            block.type(type);
+            block.mark(marking);
+        } else element = node(type);
     }
     return block;
 };
