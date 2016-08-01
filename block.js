@@ -164,12 +164,13 @@ Block = function () {
         },
         loadData: function (blockdata) { // load blockdata into current block and its children
             var data = { };
+            var style = { };
             for (key in blockdata) {
                 if (blockdata.hasOwnProperty(key)) {
                     if (key == 'css') {
                         var css = blockdata.css;
                         for (property in css) {
-                            if (css.hasOwnProperty(property)) element.style[property] = css[property];
+                            if (css.hasOwnProperty(property)) style[property] = css[property];
                         }
                         delete blockdata.css;
                     } else {
@@ -195,7 +196,10 @@ Block = function () {
                     }
                 });
             }
-            for (var key in data) {
+            for (property in css) {
+                if (css.hasOwnProperty(property)) element.style[property] = css[property];
+            }
+            for (key in data) {
                 if (data.hasOwnProperty(key) && !inArr(key, reserved)) element.setAttribute(key, data[key]);
             }
         },
