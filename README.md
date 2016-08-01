@@ -130,13 +130,17 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     - For more information on defining custom blocks, creating and manipulating blocks, and content binding, refer below to further tutorials and documentation
 
 ## Further Tutorials
-&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](https://anuvgupta.tk/block.js/tutorials)
+&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](http://anuvgupta.tk/block.js/tutorials)
 
 # Documentation
-&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
+&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](http://anuvgupta.tk/block.js/docs)
 
 # Compatibility
 &nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuvgupta.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
 [![AngularJS](http://anuvgupta.tk/block.js/img/logo/75/angular.png)](https://angularjs.org/)  
 block.js is compatible with many libraries and frameworks.  
-For more questions about compatibility, email me at [anuv.ca@gmail.com](mailto:anuv.ca@gmail.com?Subject=Compatibility%20Issue)
+For more questions about compatibility, email me at [anuv.ca@gmail.com](mailto:anuv.ca@gmail.com?Subject=Compatibility%20Issue)  
+&nbsp;  
+&nbsp;  
+## License
+&nbsp;&nbsp;block.js is released under the [MIT License](https://github.com/anuvgupta/block.js/blob/v2/LICENSE.md)
