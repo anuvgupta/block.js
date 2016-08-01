@@ -3,22 +3,25 @@ demo
     text1
         val Hello World
         css
-            font 30px Helvetica
+            font 30px Helvetica, Arial, sans-serif
             color blue
-    subBlock
+    imageBlock
         image1
             src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg
+            title doggo
             width 500px
-            height 400px
+            height 300px
             css
                 display inline-block
-    input1
+    textbox1
         placeholder hello
+        type text
         css
             border none
             outline none
-            background-color #452565
+            background-color #DDDDDD
+            text-align center
+            font-size 50px
+            color grey
     br1
-        val 3
-    br2
         val 2
