@@ -122,14 +122,14 @@ Block = function () {
         },
         setAdd: function (b) { // set block to which aadd method should add blocks
             if (isType(b, 'object') && b.block) addblock = b;
-            return this;
+            return this; // chain
         },
         type: function () { // set or get type of block
             var t = arguments[0];
             if (isType(t, 'string')) {
                 if (!isType(__blocks[t], 'null') && !isType(__blocks[t], 'undefined')) type = t;
             } else return type;
-            return this;
+            return this; // chain
         },
         class: function () { // add to or get current block's DOM class
             if (isType(arguments[0], 'string')) {
@@ -251,10 +251,10 @@ Block = function () {
                     }
                 };
 
-                __blocks[type].load(this, getData);
+                __blocks[type].load(this, getData, style);
             }
-            for (property in css) {
-                if (css.hasOwnProperty(property)) element.style[property] = css[property];
+            for (property in style) {
+                if (style.hasOwnProperty(property)) element.style[property] = style[property];
             }
             for (key in data) {
                 if (data.hasOwnProperty(key) && !inArr(key, reserved)) element.setAttribute(key, data[key]);
