@@ -107,18 +107,18 @@ Block = function () {
     // use convenience method isType to prevent type errors with optional parameters
     if (isType(type, 'null') || isType(type, 'undefined'))
         type = 'block';
-    if (isType(marking, 'null') || isType(marking, 'undefined')) {
+    if (isType(marking, 'null') || isType(marking, 'undefined') || marking === 0) {
         marking = Math.floor((Math.random() * 10000) + 1);
         while (isType(children[marking], 'object')) marking = Math.floor((Math.random() * 1000) + 1);
         marking = '_' + marking.toString();
-    }
+    } else if (marking === 1) marking = type;
 
     // declare/initialize public block object
     block = {
         block: true, // block is a block
         add: function () { // add block to current block (or block specified by setAdd)
             var $args = [].slice.call(arguments);
-            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && !$args[0].block)
+            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true)
                 var $block = Block.apply(Block, $args);
             else var $block = $args[0];
             children[$block.mark()] = $block;
@@ -128,7 +128,7 @@ Block = function () {
             else element.appendChild($block.node());
             return this; // chain
         },
-        setAdd: function ($block) { // set block to which aadd method should add blocks
+        setAdd: function ($block) { // set block to which add method should add blocks
             if (isType($block, 'object') && $block.block)
                 addblock = $block;
             return this; // chain
@@ -253,9 +253,9 @@ Block = function () {
                         }
                     }
                 }
-            } else if (isType($data, 'string') || isType($data, 'int'))
-                $data = { value: $data };
-            else if (isType($data, 'null') || !isType($data, 'object'))
+            } else if (isType($blockdata, 'string') || isType($blockdata, 'int'))
+                $data = { val: $blockdata };
+            else if (isType($blockdata, 'null') || !isType($blockdata, 'object'))
                 $data = { };
             else return this;
             var $reservedData = [];
