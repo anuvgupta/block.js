@@ -122,7 +122,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
         - Open `demo/demo.js` and remove `true` from line 13, so it reads `.load(null, 'demo');`
         - Open `demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
-        - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whichever `localdemo` you are using and change image1's src to an image you know exists)
+        - If you don't see the dog, the image was probably removed. Open `demo/demo.block` (or whichever `localdemo` you are using) and change image1's src to an image you know exists
 5. Explanation (for further explanation of the code, read the comments in each file):
     - `blocks.js` tells `block.js` how to create and load data into blocks of type 'break', 'text', and 'image'
     - `demo/demo.js` tells `block.js` what blocks to create (based on `blocks.js` and HTML tags) and in what order
@@ -130,10 +130,10 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     - For more information on defining custom blocks, creating and manipulating blocks, and content binding, refer below to further tutorials and documentation
 
 ## Further Tutorials
-&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js/tutorials](http://anuvgupta.tk/block.js/tutorials)
+&nbsp;&nbsp;View this tutorial and others at [anuvgupta.tk/block.js?tutorials](http://anuvgupta.tk/block.js/tutorials)
 
 # Documentation
-&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](http://anuvgupta.tk/block.js/docs)
+&nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js?docs](http://anuvgupta.tk/block.js/docs)
 
 # Compatibility
 &nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuvgupta.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
