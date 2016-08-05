@@ -235,20 +235,21 @@ Block = function () {
         data: function ($blockdata) { // load blockdata into current block and its children
             var $data = { };
             var $style = { };
+            var $reservedData = [];
             if (isType($blockdata, 'object')) {
                 for ($key in $blockdata) {
                     if ($blockdata.hasOwnProperty($key)) {
                         if ($key == 'css') {
-                            var $css = $blockdata.css;
-                            for ($property in $css) {
-                                if ($css.hasOwnProperty($property))
-                                    $style[$property] = $css[$property];
-                            }
-                            delete $blockdata.css;
+                            $style = $blockdata.css;
+                            $reservedData.push('css');
                         } else {
-                            if (isType($blockdata[$key], 'object') && isType(children[$key], 'object'))
+                            if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
                                 children[$key].data($blockdata[$key]);
-                            else $data[$key] = $blockdata[$key];
+                                $reservedData.push($key);
+                            } else {
+                                if (isType($blockdata[$key], 'object')) $reservedData.push($key);
+                                else $data[$key] = $blockdata[$key];
+                            }
                         }
                     }
                 }
@@ -257,24 +258,29 @@ Block = function () {
             else if (isType($data, 'null') || !isType($data, 'object'))
                 $data = { };
             else return this;
-            var $reserved = [];
+            var $reservedData = [];
             if ((type != 'block') && !isType(__blocks[type], 'undefined') && !isType(__blocks[type], 'null')) {
                 var $getData = function ($key) {
                     if (isType($data[$key], 'undefined') || isType($data[$key], 'null'))
                         return null;
                     else {
-                        $reserved.push($key);
+                        $reservedData.push($key);
                         return $data[$key];
                     }
                 };
-                __blocks[type].load(this, $getData, $style);
+                var $getStyle = function ($property) {
+                    if (isType($style[$property], 'undefined') || isType($style[$property], 'null'))
+                        return null;
+                    else return $style[$property];
+                };
+                __blocks[type].load(this, $getData, $getStyle);
             }
             for ($property in $style) {
                 if ($style.hasOwnProperty($property))
                     element.style[$property] = $style[$property];
             }
             for ($key in $data) {
-                if ($data.hasOwnProperty($key) && !inArr($key, $reserved))
+                if ($data.hasOwnProperty($key) && !inArr($key, $reservedData))
                     element.setAttribute($key, $data[$key]);
             }
             return this;
