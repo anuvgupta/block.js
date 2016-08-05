@@ -41,11 +41,12 @@ Block('image', function () { //function to create image block
     var src = data('src'); //get data 'src' (image source)
     var height = data('height'); //get data 'height'
     var width = data('width'); //get data 'width'
+    var alt = data('alt');
     if (src != null) { //if src is not null
         //load background image
         block.css('background-image', "url('" + src + "')")
-            .css('background-repeat', 'no-repeat')
-            .css('background-size', 'contain');
+             .css('background-repeat', 'no-repeat')
+             .css('background-size', 'contain');
     }
     //if height is not null, set image div height
     if (height !== null) block.css('height', height);
@@ -53,4 +54,6 @@ Block('image', function () { //function to create image block
     //if width is not null, set image div width
     if (width !== null) block.css('width', width);
     else block.css('width', 'auto');
+    //if alt is not null, set image div title
+    if (alt !== null) block.attribute('title', alt);
 });

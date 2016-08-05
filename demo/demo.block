@@ -8,9 +8,9 @@ demo
     imageBlock
         image1
             src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg
-            title doggo
+            alt Doggo
             width 500px
-            height 300px
+            height 290px
             css
                 display inline-block
                 overflow hidden
