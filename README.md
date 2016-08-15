@@ -44,7 +44,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
             ```
 
         - Works on all modern and most old browsers
-            - [See here for more info](http://caniuse.com/#feat=xhr2) on XMLHttpRequest cross-browser support
+            - [See caniuse.com for more info](http://caniuse.com/#feat=xhr2) on XMLHTTPRequest cross-browser support
             - New versions of IE7+ support AJAX, and block.js supports AJAX for IE5 and IE6
         - Continue with this tutorial
     2. Work on the code locally (ie. `file:///Users/admin/Documents/GitHub/block.js/demo/demo.html`)
