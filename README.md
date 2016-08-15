@@ -28,7 +28,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;  
 
 ## Getting Started
-1. Clone this repository, or copy raws [block.js](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.js),  [block.css](https://raw.githubusercontent.com/anuvgupta/block.js/master/block.css), and [demo.html](https://raw.githubusercontent.com/anuvgupta/block.js/master/demo.html) into a folder
+1. Clone this repository, or copy raws [block.js](https://raw.githubusercontent.com/anuvgupta/block.js/v1/block.js),  [block.css](https://raw.githubusercontent.com/anuvgupta/block.js/v1/block.css), and [demo.html](https://raw.githubusercontent.com/anuvgupta/block.js/v1/demo.html) into a folder
 2. With your favorite text editor, open `demo.html` - it should have following contents:
 
     ```html
@@ -80,5 +80,5 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
 &nbsp;&nbsp;View all API docs and tutorials at [anuvgupta.tk/block.js/docs](https://anuvgupta.tk/block.js/docs)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuvgupta.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuvgupta.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuvgupta.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuvgupta.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
-[![AngularJS](http://anuvgupta.tk/block.js/img/logo/75/angular.png)](https://angularjs.org/)
+&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuv.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuv.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuv.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuv.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
+[![AngularJS](http://anuv.tk/block.js/img/logo/75/angular.png)](https://angularjs.org/)
