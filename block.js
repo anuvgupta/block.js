@@ -13,12 +13,17 @@ Block = function () {
     // declare/initialize private instance fields
     var block;
     var addblock;
+    var __addblock;
     var element;
     var events = { };
+    var customEvents = { };
     var type = arguments[0];
     var marking = arguments[1];
     var parent;
+    var __parent;
     var children = { };
+    var __children = { };
+    var keys = { };
     // if new blocktype is being declared, add callbacks to __blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
         __blocks[type] = { };
@@ -37,7 +42,7 @@ Block = function () {
         else if (type == 'element') return (isType(val, 'object') && (val instanceof Node) && (val instanceof Element));
         else if (type == 'array') return ((typeof val === 'array') || (val instanceof Array));
         else if (type == 'object') return ((typeof val == 'object') || (val instanceof Object));
-        else if (type == 'int') return (val === parseInt(val, 10) && !isNaN(d));
+        else if (type == 'int') return (val === parseInt(val, 10) && !isNaN(val));
         else return (typeof val == type);
     };
     var node = function (tag) { // create element
@@ -107,11 +112,12 @@ Block = function () {
     // use convenience method isType to prevent type errors with optional parameters
     if (isType(type, 'null') || isType(type, 'undefined'))
         type = 'block';
-    if (isType(marking, 'null') || isType(marking, 'undefined') || marking === 0) {
+    if (marking == 1) marking = type;
+    else if (isType(marking, 'null') || isType(marking, 'undefined') || marking == 0) {
         marking = Math.floor((Math.random() * 10000) + 1);
         while (isType(children[marking], 'object')) marking = Math.floor((Math.random() * 1000) + 1);
         marking = '_' + marking.toString();
-    } else if (marking === 1) marking = type;
+    }
 
     // declare/initialize public block object
     block = {
@@ -128,10 +134,61 @@ Block = function () {
             else element.appendChild($block.node());
             return this; // chain
         },
+        __add: function () { // add block to current block's ghost tree (or ghost block specified by __setAdd)
+            var $args = [].slice.call(arguments);
+            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true)
+                var $block = Block.apply(Block, $args);
+            else var $block = $args[0];
+            __children[$block.mark()] = $block;
+            $block.__parent(this);
+            if (isType(__addblock, 'object') && __addblock.block)
+                addblock.__add($block);
+            else element.appendChild($block.node());
+            return this; // chain
+        },
         setAdd: function ($block) { // set block to which add method should add blocks
             if (isType($block, 'object') && $block.block)
                 addblock = $block;
             return this; // chain
+        },
+        __setAdd: function ($block) { // set block to which add method should add blocks
+            if (isType($block, 'object') && $block.block)
+                __addblock = $block;
+            return this; // chain
+        },
+        remove: function () {
+            $marking = arguments[0];
+            if (isType($marking, 'null') && isType($marking, 'undefined') && isType(parent, 'null') && isType(parent, 'undefined'))
+                parent.remove(marking);
+            else if (isType($marking, 'string') && !isType(children[$marking], 'null')) {
+                if (isType(addblock, 'object') && addblock.block)
+                    addblock.node().removeChild(children[$marking].node());
+                else element.removeChild(children[$marking].node());
+                delete children[$marking];
+            }
+            return this;
+        },
+        __remove: function () {
+            $marking = arguments[0];
+            if (isType($marking, 'null') && isType($marking, 'undefined') && isType(__parent, 'null') && isType(__parent, 'undefined'))
+                __parent.__remove(marking);
+            else if (isType($marking, 'string') && !isType(__children[$marking], 'null')) {
+                if (isType(__addblock, 'object') && __addblock.block)
+                    __addblock.node().removeChild(__children[$marking].node());
+                else element.removeChild(__children[$marking].node());
+                delete __children[$marking];
+            }
+            return this;
+        },
+        empty: function () {
+            for (var $marking in children)
+                this.remove($marking);
+            return this;
+        },
+        __empty: function () {
+            for (var $marking in children)
+                this.remove($marking);
+            return this;
         },
         type: function () { // set or get type of block
             var $type = arguments[0];
@@ -169,7 +226,8 @@ Block = function () {
                 return this; // chain
             } else return element.getAttribute($attribute);
         },
-        css: function ($property) { // set or get value of css property of current block
+        css: function () { // set or get value of css property of current block
+            var $property = arguments[0];
             if (isType($property, 'object')) {
                 for ($p in $property) {
                     if ($property.hasOwnProperty($p) && isType($property[$p], 'string'))
@@ -180,20 +238,79 @@ Block = function () {
                 if (isType($value, 'string'))
                     element.style[$property] = $value;
                 else return element.style[$property];
+            } else {
+                var $obj = { };
+                var $cssSD = element.style;
+                for ($prop in $cssSD) {
+                    if ($cssSD.hasOwnProperty($prop) && $cssSD[$prop] != '' && !(!isNaN(parseFloat($prop)) && isFinite($prop)))
+                        $obj[$prop] = $cssSD[$prop];
+                }
+                return $obj;
             }
             return this;
         },
-        on: function ($event, $callback) { // set event handler on current block
-            if (isType($event, 'string') && isType($callback, 'function')) {
-                if (isType(arguments[0], 'string'))
-                    events[$event + '_' + arguments[0]] = $callback;
-                element.addEventListener($event, $callback);
+        key: function ($key) {
+            $data = arguments[1];
+            if (isType($data, 'undefined') || isType($data, 'null')) {
+                if (isType(keys[$key], 'undefined') || isType(keys[$key], 'null'))
+                    keys[$key] = { };
+                else return keys[$key];
+            } else keys[$key] = $data;
+            return this;
+        },
+        on: function ($type, $callback) { // set event handler on current block
+            var $block = this;
+            if (isType($type, 'string')) {
+                if (isType($callback, 'function')) {
+                    if (isType(arguments[2], 'string')) {
+                        var $id = arguments[2];
+                        var $name = $type + '_' + $id;
+                        if (!isType(events[$type], 'object'))
+                            events[$type] = { };
+                        events[$type][$id] = $callback;
+                        element.addEventListener($name, $callback, false);
+                        events[$name] = function ($e) {
+                            var $data = $e.detail;
+                            if (isType($e.detail, 'null') || isType($e.detail, 'undefined'))
+                                $block.on($type, $id);
+                            else $block.on($type, $id, $data);
+                        };
+                        element.addEventListener($type, events[$name], false);
+                    } else element.addEventListener($type, $callback, false);
+                } else {
+                    if(isType($callback, 'string'))
+                        $name = $type + '_' + $callback;
+                    else if (isType($callback, 'null') || isType($callback, 'undefined') || isType($callback, 'object'))
+                        $name = $type;
+                    $data = arguments[arguments.length - 1];
+                    if (isType($data, 'null') || isType($data, 'undefined') || isType($data, 'string') || !isType($data, 'object'))
+                        $data = { };
+                    if (document.createEvent) {
+                        $event = document.createEvent('CustomEvent');
+                        $event.initCustomEvent($name, true, true, $data);
+                        element.dispatchEvent($event);
+                    } else {
+                        $event = document.createEventObject();
+                        $event.eventType = $name;
+                        element.fireEvent('on' + $name, $event);
+                    }
+                }
             }
             return this;
         },
-        off: function ($event, $id) { // remove event handler from current block by id
-            var $callback = events[$event + '_' + $id];
-            if (isType($callback, 'function')) element.removeEventListener($event, $callback);
+        off: function ($type, $id) { // remove event handler from current block by id
+            var $callbackA = events[$type + '_' + $id];
+            var $callbackB = null;
+            if (!isType(events[$type], 'null') && !isType(events[$type], 'undefined'))
+                $callbackB = events[$type][$id];
+            if (isType($callbackA, 'function')) {
+                events[$type + '_' + $id] = null;
+                element.removeEventListener($type, $callbackA);
+            }
+            if (isType($callbackB, 'function')) {
+                events[$type][$id] = null;
+                element.removeEventListener($type, $callbackB);
+            }
             return this;
         },
         child: function ($marking) { // [recursively] get child of current block by marking
@@ -205,32 +322,114 @@ Block = function () {
                 else return null;
             } else return null;
         },
-        parent: function () { // get or set parent of current block
+        children: function () {
+            return children;
+        },
+        childCount: function () { // get number of children
+            var $length = 0;
+            for (var $k in children) $length++;
+            return $length;
+        },
+        __child: function ($marking) { // [recursively] get child of current block by marking
+            if (isType($marking, 'string')) {
+                if ($marking.includes('/'))
+                    return __children[$marking.substring(0, $marking.indexOf('/'))].__child($marking.substring($marking.indexOf('/') + 1));
+                else if(!isType(__children[$marking], 'null') && !isType(__children[$marking], 'undefined'))
+                    return __children[$marking];
+                else return null;
+            } else return null;
+        },
+        __children: function () {
+            return __children;
+        },
+        __childCount: function () { // get number of children
+            var $length = 0;
+            for (var $k in __children) $length++;
+            return $length;
+        },
+        sibling: function ($path) {
+            if (parent != null && parent != undefined)
+                return parent.child($path);
+            return null;
+        },
+        siblings: function () {
+            if (parent != null && parent != undefined)
+                return parent.children();
+            return null;
+        },
+        siblingCount: function () {
+            if (parent != null && parent != undefined)
+                return parent.childCount();
+            return null;
+        },
+        __sibling: function ($path) {
+            if (__parent != null && __parent != undefined)
+                return __parent.__child($path);
+            return null;
+        },
+        __siblings: function () {
+            if (__parent != null && __parent != undefined)
+                return __parent.__children();
+            return null;
+        },
+        __siblingCount: function () {
+            if (__parent != null && __parent != undefined)
+                return __parent.__childCount();
+            return null;
+        },
+        parent: function () { // get or set parent of current block (recursively within parents)
             var $parent = arguments[0];
             if (isType($parent, 'object') && $parent.block && isType(parent, 'undefined') && isType(parent, 'null')) {
                 parent = $parent;
                 return this; // chain
-            } else return parent;
+            } else if (isType($parent, 'int') && !isType(parent, 'undefined') && !isType(parent, 'null')) {
+                if ($parent == 0) return parent;
+                else return parent.parent($parent - 1);
+            } else if (isType(parent, 'undefined') || isType(parent, 'null'))
+                return null;
+            else return parent;
+        },
+        __parent: function () {
+            var $parent = arguments[0];
+            if (isType($parent, 'object') && $parent.block && isType(__parent, 'undefined') && isType(__parent, 'null')) {
+                __parent = $parent;
+                return this; // chain
+            } else if (isType($parent, 'int') && !isType(__parent, 'undefined') && !isType(__parent, 'null')) {
+                if ($parent == 0) return __parent;
+                else return __parent.__parent($parent - 1);
+            } else if (isType(__parent, 'undefined') || isType(__parent, 'null'))
+                return null;
+            else return __parent;
         },
         node: function () { // get current block's node (DOM element)
             return element;
         },
         fill: function ($target) { // fill DOM element with contents of current block
-            if (isType($target, 'string'))
+            if (isType($target, 'object') && $target.block) {
+                $target.empty();
+                $target = $target.node();
+            } else if (isType($target, 'string'))
                 $target = document.querySelector($target);
-            else if (isType($target, 'element')) {
+            if (isType($target, 'element')) {
                 $target.innerHTML = '';
                 $target.appendChild(element);
             }
             return this; // chain
         },
-        $: function () { // jQuery the block's DOM element if jQuery present
+        jQuery: function () { // jQuery the block's DOM element if jQuery present
             if (__$block) {
                 var $block = this;
-                var $jQuery = jQuery(element);
-                $jQuery.block = function () { return $block; };
-                return $jQuery;
-            } else console.warn('jQuery not detected');
+                return jQuery.extend(jQuery(element), {
+                    block: function () {
+                        return $block;
+                    }
+                });
+            }
+            console.warn('jQuery not detected');
+            return null;
+        },
+        $: function () { // shortcut for jQuery function
+            return this.jQuery();
         },
         data: function ($blockdata) { // load blockdata into current block and its children
             var $data = { };
@@ -248,7 +447,7 @@ Block = function () {
                                 $reservedData.push($key);
                             } else {
                                 if (isType($blockdata[$key], 'object')) $reservedData.push($key);
-                                else $data[$key] = $blockdata[$key];
+                                $data[$key] = $blockdata[$key];
                             }
                         }
                     }
@@ -261,7 +460,9 @@ Block = function () {
             var $reservedData = [];
             if ((type != 'block') && !isType(__blocks[type], 'undefined') && !isType(__blocks[type], 'null')) {
                 var $getData = function ($key) {
-                    if (isType($data[$key], 'undefined') || isType($data[$key], 'null'))
+                    if ($key == 'this')
+                        return $data;
+                    else if (isType($data[$key], 'undefined') || isType($data[$key], 'null'))
                         return null;
                     else {
                         $reservedData.push($key);
@@ -269,7 +470,9 @@ Block = function () {
                     }
                 };
                 var $getStyle = function ($property) {
-                    if (isType($style[$property], 'undefined') || isType($style[$property], 'null'))
+                    if ($property == 'this')
+                        return $style;
+                    else if (isType($style[$property], 'undefined') || isType($style[$property], 'null'))
                         return null;
                     else return $style[$property];
                 };
@@ -285,15 +488,19 @@ Block = function () {
             }
             return this;
         },
+        parse: function ($callback, $data) { // parse blockdata into object
+            $data = $data.replace(/\r\n|\r|\n/g, '\n'); // clean up carriage returns
+            var $indentation = $data.substring(0, $data.indexOf('*')); // find indentation
+            // parse raw blockdata into object and load into current block
+            var $blockdata = parseBlock($data.substring($data.indexOf('*') + 2), $indentation);
+            this.data($blockdata[marking]);
+            if (isType($callback, 'function')) $callback(this);
+            return this;
+        },
         load: function ($callback, $file) { // load blockdata file from different sources *!* LINK IMPORT MEANT TO BE ADDED NEXT *!*
             var $block = this;
-            var $next = function ($data) { // code to run when blockdata is retrieved
-                $data = $data.replace(/\r\n|\r|\n/g, '\n'); // clean up carriage returns
-                var $indentation = $data.substring(0, $data.indexOf('*')); // find indentation
-                // parse raw blockdata into object and load into current block
-                var $blockdata = parseBlock($data.substring($data.indexOf('*') + 2), $indentation);
-                $block.data($blockdata[marking]);
-                if (isType($callback, 'function')) $callback($block);
+            var $next = function ($cb, $d) { // code to run when blockdata is retrieved
+                $block.parse.apply($block, [$cb, $d]);
             };
             var $ajax = arguments[2]; // use ajax to get raw blockdata
             var $asynch = arguments[3]; // use asynchronous request
@@ -304,7 +511,7 @@ Block = function () {
                         url: $file + '.block',
                         type: 'GET',
                         async: $asynch,
-                        success: function ($rawblockdata) { $next($rawblockdata); }
+                        success: function ($rawblockdata) { $next($callback, $rawblockdata); }
                     });
                 } else console.warn('jQuery not detected');
             } else if ($ajax === true) { // if normal request desired
@@ -313,11 +520,11 @@ Block = function () {
                 else $xhr = new ActiveXObject('Microsoft.XMLHTTP'); // IE support
                 $xhr.onreadystatechange = function () { // when data recieved, load blockdata
                     if ($xhr.readyState == 4 && $xhr.status == 200)
-                        $next($xhr.responseText);
+                        $next($callback, $xhr.responseText);
                 };
                 $xhr.open('GET', $file + '.block', $asynch);
                 $xhr.send();
-            } else $next(customBlockData[$file]); //if ajax not wanted, get from local file
+            } else $next($callback, customBlockData[$file]); //if ajax not wanted, get from local file
             return this; // chain
         }
     };
@@ -326,14 +533,10 @@ Block = function () {
     if (type == 'block') { // default block
         element = node('div');
         element.className = 'block';
-        var content = Block('div').class('content');
+        var content = Block('div').class('content').mark('content');
         block.setAdd(content);
-        block.cssContent = function () {
-            var args = [].slice.call(arguments);
-            content.css.apply(content, args);
-            return block; // chain
-        };
-        element.appendChild(content.node());
+        block.__add(content);
+        block.__setAdd(content);
     } else { // custom defined blocks
         if (__blocks[type] != null) {
             block = __blocks[type].create();
