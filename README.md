@@ -84,7 +84,7 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
                 ```
 
                 The ``` ` ``` symbol denotes a multiline string literal, and newlines `\n` are added automatically
-            <!-- - This tutorial is for this using a web server. For a tutorial using local files, refer [here](http://anuv.tk/block.js/tutorial/local). -->
+            <!-- - This tutorial is for this using a web server. For a tutorial using local files, refer [here](http://anuv.me/block.js/tutorial/local). -->
     3. In short, ***use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Just do it, and reduce hassle when you code.
 2. With your favorite text editor (Atom), open `demo/demo.html` - it should have following contents:
 
@@ -130,16 +130,16 @@ We believe that you only need to worry about **content** and **layout**. *Leave 
     - For more information on defining custom blocks, creating and manipulating blocks, and content binding, refer below to further tutorials and documentation
 
 ## Further Tutorials
-&nbsp;&nbsp;View this tutorial and others at [anuv.tk/block.js?tutorials](http://anuv.tk/block.js/tutorials)
+&nbsp;&nbsp;View this tutorial and others at [anuv.me/block.js?tutorials](http://anuv.me/block.js/tutorials)
 
 # Documentation
-&nbsp;&nbsp;View all API docs and tutorials at [anuv.tk/block.js?docs](http://anuv.tk/block.js/docs)
+&nbsp;&nbsp;View all API docs and tutorials at [anuv.me/block.js?docs](http://anuv.me/block.js/docs)
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuv.tk/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuv.tk/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuv.tk/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuv.tk/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
-[![AngularJS](http://anuv.tk/block.js/img/logo/75/angular.png)](https://angularjs.org/)  
+&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuv.me/block.js/img/logo/75/jQueryB.png)](https://jquery.com/) [![HTML5](http://anuv.me/block.js/img/logo/75/html5.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuv.me/block.js/img/logo/75/css3.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuv.me/block.js/img/logo/75/js5.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
+[![AngularJS](http://anuv.me/block.js/img/logo/75/angular.png)](https://angularjs.org/)  
 block.js is compatible with many libraries and frameworks.  
-For more questions about compatibility, email me at [blockjs@anuv.tk](mailto:blockjs@anuv.tk?Subject=Compatibility%20Issue)  
+For more questions about compatibility, email me at [blockjs@anuv.me](mailto:blockjs@anuv.me?Subject=Compatibility%20Issue)  
 &nbsp;  
 &nbsp;  
 ## License
