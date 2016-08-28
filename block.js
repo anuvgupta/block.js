@@ -1,6 +1,6 @@
 /*
  block.js v2.0
- (c) 2016 Anuv Gupta [http://anuvgupta.tk/block.js]
+ (c) 2016 Anuv Gupta [http://anuv.me/block.js]
  License: MIT
 */
 
@@ -23,7 +23,9 @@ Block = function () {
     var __parent;
     var children = { };
     var __children = { };
-    var keys = { };
+    var keys = {
+        __blockdata: []
+    };
     // if new blocktype is being declared, add callbacks to __blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
         __blocks[type] = { };
@@ -124,26 +126,56 @@ Block = function () {
         block: true, // block is a block
         add: function () { // add block to current block (or block specified by setAdd)
             var $args = [].slice.call(arguments);
-            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true)
+            var $before = null;
+            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true) {
+                if ($args.length >= 3) {
+                    $before = $args[2];
+                    $args = $args.slice(0, 2);
+                }
                 var $block = Block.apply(Block, $args);
-            else var $block = $args[0];
+            } else {
+                if ($args.length >= 2) {
+                    $before = $args[1];
+                    $args = $args.slice(0, 1);
+                }
+                var $block = $args[0];
+            }
             children[$block.mark()] = $block;
             $block.parent(this);
             if (isType(addblock, 'object') && addblock.block)
-                addblock.add($block);
-            else element.appendChild($block.node());
+                addblock.add($block, $before);
+            else {
+                if (isType($before, 'string') && isType(children[$before], 'object') && children[$before].block)
+                    element.insertBefore($block.node(), children[$before].node());
+                else element.appendChild($block.node());
+            }
             return this; // chain
         },
         __add: function () { // add block to current block's ghost tree (or ghost block specified by __setAdd)
             var $args = [].slice.call(arguments);
-            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true)
+            var $before = null;
+            if (!isType($args[0], 'undefined') && !isType($args[0], 'null') && $args[0].block !== true) {
+                if ($args.length >= 3) {
+                    $before = $args[2];
+                    $args = $args.slice(0, 2);
+                }
                 var $block = Block.apply(Block, $args);
-            else var $block = $args[0];
+            } else {
+                if ($args.length >= 2) {
+                    $before = $args[1];
+                    $args = $args.slice(0, 1);
+                }
+                var $block = $args[0];
+            }
             __children[$block.mark()] = $block;
             $block.__parent(this);
             if (isType(__addblock, 'object') && __addblock.block)
-                addblock.__add($block);
-            else element.appendChild($block.node());
+                addblock.__add($block, $before);
+            else {
+                if (isType($before, 'string') && isType(__children[$before], 'object') && __children[$before].block)
+                    element.insertBefore($block.node(), __children[$before].node());
+                else element.appendChild($block.node());
+            }
             return this; // chain
         },
         setAdd: function ($block) { // set block to which add method should add blocks
@@ -434,19 +466,20 @@ Block = function () {
         data: function ($blockdata) { // load blockdata into current block and its children
             var $data = { };
             var $style = { };
-            var $reservedData = [];
+            var $reservedAttributes = [];
             if (isType($blockdata, 'object')) {
                 for ($key in $blockdata) {
                     if ($blockdata.hasOwnProperty($key)) {
                         if ($key == 'css') {
                             $style = $blockdata.css;
-                            $reservedData.push('css');
+                            $reservedAttributes.push('css');
                         } else {
                             if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
                                 children[$key].data($blockdata[$key]);
-                                $reservedData.push($key);
+                                $reservedAttributes.push($key);
                             } else {
-                                if (isType($blockdata[$key], 'object')) $reservedData.push($key);
+                                if (isType($blockdata[$key], 'object'))
+                                    $reservedAttributes.push($key);
                                 $data[$key] = $blockdata[$key];
                             }
                         }
@@ -457,7 +490,6 @@ Block = function () {
             else if (isType($blockdata, 'null') || !isType($blockdata, 'object'))
                 $data = { };
             else return this;
-            var $reservedData = [];
             if ((type != 'block') && !isType(__blocks[type], 'undefined') && !isType(__blocks[type], 'null')) {
                 var $getData = function ($key) {
                     if ($key == 'this')
@@ -465,7 +497,7 @@ Block = function () {
                     else if (isType($data[$key], 'undefined') || isType($data[$key], 'null'))
                         return null;
                     else {
-                        $reservedData.push($key);
+                        $reservedAttributes.push($key);
                         return $data[$key];
                     }
                 };
@@ -483,9 +515,13 @@ Block = function () {
                     element.style[$property] = $style[$property];
             }
             for ($key in $data) {
-                if ($data.hasOwnProperty($key) && !inArr($key, $reservedData))
+                if ($data.hasOwnProperty($key) && !inArr($key, $reservedAttributes))
                     element.setAttribute($key, $data[$key]);
             }
+            keys['__blockdata'].push({
+                data: $data,
+                css: $style
+            });
             return this;
         },
         parse: function ($callback, $data) { // parse blockdata into object
