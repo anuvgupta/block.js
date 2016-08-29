@@ -23,9 +23,8 @@ Block = function () {
     var __parent;
     var children = { };
     var __children = { };
-    var keys = {
-        __blockdata: []
-    };
+    var keys = { };
+    var blockdata = [];
     var dataBindings = { };
     // if new blocktype is being declared, add callbacks to __blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
@@ -291,6 +290,12 @@ Block = function () {
             } else keys[$key] = $data;
             return this;
         },
+        blockdata: function ($key) {
+            if (isType(blockdata[$key], 'undefined') || isType(blockdata[$key], 'null'))
+                blockdata[$key] = { };
+            else return blockdata[$key];
+            return this;
+        },
         on: function ($type, $callback) { // set event handler on current block
             var $block = this;
             if (isType($type, 'string')) {
@@ -533,7 +538,7 @@ Block = function () {
                 if ($data.hasOwnProperty($key) && !inArr($key, $reservedAttributes))
                     element.setAttribute($key, $data[$key]);
             }
-            keys['__blockdata'].push({
+            blockdata.push({
                 data: $data,
                 css: $style
             });
