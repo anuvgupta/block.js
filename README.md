@@ -1,15 +1,15 @@
 # block.js
-block.js is a lightweight JavaScript library for generating HTML blocks.  
+block.js is a lightweight JavaScript library for generating reusable and customizable HTML blocks.  
 &nbsp;&nbsp;&nbsp;&nbsp;<sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
 &nbsp;  
-Tired of writing `<html>` tags? Lost and confused in a web of `#css` selectors?  
+Tired of rewriting the same `<html>` tags? Lost and confused in a web of `#css` selectors?  
 Just want to create *simple, aesthetic, stress-free* web pages? **block.js is for you!**
 
 ## Philosophy
 block.js splits web design into three main divisions:
 
 1. Block Layout
-    - Defining tree of blocks
+    - Defining tree of blo
     - Manipulating blocks (no DOM)
 2. Content Creation  
     - Adding text to fill blocks  
