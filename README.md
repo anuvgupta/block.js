@@ -21,6 +21,7 @@ block.js splits web design into three main divisions:
 3. Markup Generation
     - Binding content and style
     - Generating HTML blocks
+
 We believe that you only need to worry about **content** and **layout**. *Leave markup generation to us.*
 &nbsp;  
 
