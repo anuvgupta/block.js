@@ -608,6 +608,7 @@ Block = function () {
             block.mark(marking);
         } else element = node(type);
     }
+    block.attribute('block', marking);
     return block;
 };
 // add default block style to document
