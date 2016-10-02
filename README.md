@@ -4,8 +4,7 @@ block.js is a lightweight JavaScript library for generating reusable and customi
 &nbsp;  
 Tired of rewriting the same `<html>` tags? Lost and confused in a web of `#css` selectors?  
 Just want to create *simple, aesthetic, stress-free* web pages? **block.js is for you!**  
-&nbsp;  
-Visit [anuv.me/block.js](http://anuv.me/block.js)  
+#### Visit [anuv.me/block.js](http://anuv.me/block.js)  
 
 ## Philosophy
 block.js splits web design into three main divisions:
