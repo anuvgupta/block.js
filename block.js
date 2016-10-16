@@ -27,7 +27,7 @@ Block = function () {
     var children = { };
     var __children = { };
     var keys = { };
-    var blockdata = [];
+    var blockdata = { count: 0 };
     var dataBindings = { };
     // if new blocktype is being declared, add callbacks to __blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
@@ -294,6 +294,7 @@ Block = function () {
             return this;
         },
         blockdata: function ($key) {
+            console.log(blockdata);
             if (isType(blockdata[$key], 'undefined') || isType(blockdata[$key], 'null'))
                 blockdata[$key] = { };
             else return blockdata[$key];
@@ -494,7 +495,9 @@ Block = function () {
                             $reservedAttributes.push('css');
                         } else {
                             if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
-                                children[$key].data($blockdata[$key]);
+                                if (isType(arguments[1], 'string'))
+                                    children[$key].data($blockdata[$key], arguments[1]);
+                                else children[$key].data($blockdata[$key]);
                                 $reservedAttributes.push($key);
                             } else {
                                 if (isType($blockdata[$key], 'object'))
@@ -541,10 +544,11 @@ Block = function () {
                 if ($data.hasOwnProperty($key) && !inArr($key, $reservedAttributes))
                     element.setAttribute($key, $data[$key]);
             }
-            blockdata.push({
+            blockdata.count++;
+            blockdata[isType(arguments[1], 'string') ? arguments[1] : ('#' + blockdata.count)] = {
                 data: $data,
                 css: $style
-            });
+            };
             return this; // chain
         },
         bind: function ($key, $callback) {
@@ -557,14 +561,15 @@ Block = function () {
             var $indentation = $data.substring(0, $data.indexOf('*')); // find indentation
             // parse raw blockdata into object and load into current block
             var $blockdata = parseBlock($data.substring($data.indexOf('*') + 2), $indentation);
-            this.data($blockdata[marking]);
+            if (isType(arguments[2], 'string')) this.data($blockdata[marking], arguments[2]);
+            else this.data($blockdata[marking]);
             if (isType($callback, 'function')) $callback(this);
             return this;
         },
-        load: function ($callback, $file) { // load blockdata file from different sources *!* LINK IMPORT MEANT TO BE ADDED NEXT *!*
+        load: function ($callback, $file) { // load blockdata file from different sources (*!* LINK IMPORT MEANT TO BE ADDED NEXT *!*)
             var $block = this;
             var $next = function ($cb, $d) { // code to run when blockdata is retrieved
-                $block.parse.apply($block, [$cb, $d]);
+                $block.parse.apply($block, [$cb, $d, $file]);
             };
             var $ajax = arguments[2]; // use ajax to get raw blockdata
             var $asynch = arguments[3]; // use asynchronous request
