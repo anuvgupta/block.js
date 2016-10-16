@@ -54,7 +54,7 @@ Block = function () {
         return document.createElement(tag);
     };
     var inArr = function (element, array) { // search array
-        return array.indexOf(element.trim().toLowerCase()) > -1;
+        return array.indexOf(element) > -1;
     };
     var setData = function (object, path, value) { // recursively set field within object
         if (path.length == 1) {
