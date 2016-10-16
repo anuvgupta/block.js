@@ -294,7 +294,6 @@ Block = function () {
             return this;
         },
         blockdata: function ($key) {
-            console.log(blockdata);
             if (isType(blockdata[$key], 'undefined') || isType(blockdata[$key], 'null'))
                 blockdata[$key] = { };
             else return blockdata[$key];
