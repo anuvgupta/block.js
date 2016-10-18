@@ -303,13 +303,16 @@ Block = function () {
             var $block = this;
             if (isType($type, 'string')) {
                 if (isType($callback, 'function')) {
+                    $newCallback = function ($eObj) {
+                        $callback($eObj, $block, $eObj.detail);
+                    };
                     if (isType(arguments[2], 'string')) {
                         var $id = arguments[2];
                         var $name = $type + '_' + $id;
                         if (!isType(events[$type], 'object'))
                             events[$type] = { };
-                        events[$type][$id] = $callback;
-                        element.addEventListener($name, $callback, false);
+                        events[$type][$id] = $newCallback;
+                        element.addEventListener($name, $newCallback, false);
                         events[$name] = function ($e) {
                             var $data = $e.detail;
                             if (isType($e.detail, 'null') || isType($e.detail, 'undefined'))
@@ -317,17 +320,16 @@ Block = function () {
                             else $block.on($type, $id, $data);
                         };
                         element.addEventListener($type, events[$name], false);
-                    } else element.addEventListener($type, $callback, false);
+                    } else element.addEventListener($type, $newCallback, false);
                 } else {
                     if(isType($callback, 'string'))
                         $name = $type + '_' + $callback;
                     else if (isType($callback, 'null') || isType($callback, 'undefined') || isType($callback, 'object'))
                         $name = $type;
                     $data = arguments[arguments.length - 1];
-                    if (isType($data, 'null') || isType($data, 'undefined') || isType($data, 'string') || !isType($data, 'object'))
+                    if (isType($data, 'null') || isType($data, 'undefined') || !isType($data, 'object'))
                         $data = { };
                     if (document.createEvent) {
-                        $data['block'] = this;
                         $event = document.createEvent('CustomEvent');
                         $event.initCustomEvent($name, true, true, $data);
                         element.dispatchEvent($event);
@@ -538,7 +540,7 @@ Block = function () {
             }
             for ($key in dataBindings) {
                 if (dataBindings.hasOwnProperty($key) && $data.hasOwnProperty($key))
-                    dataBindings[$key]($data[$key]);
+                    dataBindings[$key]($data[$key], this);
             }
             for ($key in $data) {
                 if ($data.hasOwnProperty($key) && !inArr($key, $reservedAttributes))
@@ -561,6 +563,8 @@ Block = function () {
             var $indentation = $data.substring(0, $data.indexOf('*')); // find indentation
             // parse raw blockdata into object and load into current block
             var $blockdata = parseBlock($data.substring($data.indexOf('*') + 2), $indentation);
+            // do not load into current block if data desired
+            if (arguments[arguments.length - 1] === true) return $blockdata;
             if (isType(arguments[2], 'string')) this.data($blockdata[marking], arguments[2]);
             else this.data($blockdata[marking]);
             if (isType($callback, 'function')) $callback(this);
