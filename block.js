@@ -327,6 +327,7 @@ Block = function () {
                     if (isType($data, 'null') || isType($data, 'undefined') || isType($data, 'string') || !isType($data, 'object'))
                         $data = { };
                     if (document.createEvent) {
+                        $data['block'] = this;
                         $event = document.createEvent('CustomEvent');
                         $event.initCustomEvent($name, true, true, $data);
                         element.dispatchEvent($event);
