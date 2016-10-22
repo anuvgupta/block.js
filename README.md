@@ -80,7 +80,6 @@ block.js's syntax is ridiculously basic, making it easy to learn, retain, and us
     - Start your web server
         - Open your favorite web browser (Chrome) and go to `http://` (your IP/hostname+port, ie. `localhost:80` or `127.0.0.1:8000`) `/block.js/demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
-        <!-- - If you don't see the dog, the image was probably removed. Open `demo/demo.block` and change image1's src to an image you know exists -->
 5. Explanation (for further explanation of the code, read the comments in each file):
     - `demo/blocks.js` tells `block.js` how to create and load data into custom blocks
         - The types of custom blocks in this file: `break`, `text`, and `image`
