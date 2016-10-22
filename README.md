@@ -30,7 +30,7 @@ block.js's syntax is ridiculously basic, making it easy to learn, retain, and us
 *Get started in just* ***5*** *easy steps*  
 
 1. Load this code into a web server
-    1. ***Use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Any web server should work.
+    1. ***Use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), [node.js](http://nodejs.org), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Any web server should work.
         - Example URL: `localhost/block.js/demo/demo.html`
         - Copy/clone the repository into your server's equivalent of a `www` or `htdocs` directory
     2. "Why do I need web server?"
