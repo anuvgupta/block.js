@@ -1,21 +1,25 @@
     *
 demo
-    text1
+    text text1
         val Hello World
         css
             font 30px Helvetica, Arial, sans-serif
             color blue
-    imageBlock
-        image1
+    break br0
+        block
+    block imageBlock
+        image image1
             src http://i.dailymail.co.uk/i/pix/2016/02/04/15/30DFF6F800000578-3431939-image-a-128_1454599522344.jpg
             alt Doggo
-            width 500px
+            width 490px
             height 290px
             css
                 display inline-block
                 overflow hidden
                 border-radius 20px
-    textbox1
+    break br1
+        val 2
+    input textbox1
         placeholder input
         type text
         css
@@ -28,5 +32,3 @@ demo
             width 500px
             height 65px
             border-radius 8px
-    br1
-        val 2

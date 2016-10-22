@@ -1,9 +1,9 @@
 /*
-  block.js v2.0
+  block.js v3.0
   [http://anuv.me/block.js]
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
-  License: MIT [https://github.com/anuvgupta/block.js/blob/v2/LICENSE.md]
+  License: MIT [https://github.com/anuvgupta/block.js/blob/v3/LICENSE.md]
   Copyright: (c) 2016 Anuv Gupta
 */
 
@@ -73,7 +73,7 @@ Block = function () {
         var blockdata = { }; // declare/init blockdata object
         var path = []; // declare/init path array
         var lines = data.split('\n'); // split each line into array
-        for (i in lines) { // for each line
+        for (var i = 0; i < lines.length; i++) { // for each line
             var line = lines[i]; // get line
             var first = line.search(/\S/); // get position of first non-space char in line
             if (first == -1 || line.substring(first, first + 2) == '//') // if line contains only space, or starts with comment
@@ -85,13 +85,24 @@ Block = function () {
             if (space == -1) { // if there is no space, key holds object value
                 var key = line; // since the object value is not on the line, the line is the key name
                 var value = { }; // the value of this key is an object, declare/initialize
-            } else { //if there is a space, key holds string value
+            } else if (isType(lines[i + 1], 'string') && first < lines[i + 1].search(/\S/)) { // if there is a space and also child lines, line builds new block
+                var key = line;
+                var value = { };
+            } else { // if there is a space (and no child lines), key holds string value
                 var key = line.substring(0, space); // get the key (before the first space)
                 var value = line.substring(space + 1); //get the value (after the first space)
             }
             // each indent on the line represents a level in the blockdata object, thus
             path = path.slice(0, indents); // remove that many levels from last path (position in blockdata object)
+
+            // preserve key order
+            var __keyOrderPath = path.concat(['__keyOrder']);
+            if (!isType(getData(blockdata, __keyOrderPath), 'array'))
+                setData(blockdata, __keyOrderPath, [key]);
+            else getData(blockdata, __keyOrderPath).push(key);
+
             path.push(key); // add key to current level to generate the current path
+
             /* example
                 car
                     details
@@ -112,14 +123,14 @@ Block = function () {
             */
             setData(blockdata, path, value); // use recursive convenience function to modify blockdata object accordingly
         }
-        return blockdata; // return the fully formed blockdata object
+        return blockdata; // return the fully formed blockdata object, with the key order
     };
     // use convenience method isType to prevent type errors with optional parameters
     if (isType(type, 'null') || isType(type, 'undefined'))
         type = 'block';
     if (marking == 1) marking = type;
     else if (isType(marking, 'null') || isType(marking, 'undefined') || marking == 0) {
-        marking = Math.floor((Math.random() * 10000) + 1);
+        marking = Math.floor((Math.random() * 1000) + 1);
         while (isType(children[marking], 'object')) marking = Math.floor((Math.random() * 1000) + 1);
         marking = '_' + marking.toString();
     }
@@ -295,7 +306,7 @@ Block = function () {
         },
         blockdata: function ($key) {
             if (isType(blockdata[$key], 'undefined') || isType(blockdata[$key], 'null'))
-                blockdata[$key] = { };
+                return null;
             else return blockdata[$key];
             return this;
         },
@@ -490,11 +501,28 @@ Block = function () {
             var $style = { };
             var $reservedAttributes = [];
             if (isType($blockdata, 'object')) {
-                for ($key in $blockdata) {
+                if (isType($blockdata['__keyOrder'], 'array'))
+                    var $iterableKeys = $blockdata['__keyOrder'];
+                else var $iterableKeys = Object.keys($blockdata);
+                for (var $j = 0; $j < $iterableKeys.length; $j++) {
+                    var $key = $iterableKeys[$j];
                     if ($blockdata.hasOwnProperty($key)) {
+                        var $midspace = $key.search(/ /);
                         if ($key == 'css') {
                             $style = $blockdata.css;
                             $reservedAttributes.push('css');
+                        } else if ($midspace > 0) {
+                            var $childtype = $key.substring(0, $midspace);
+                            var $childmarking = $key.substring($midspace + 1);
+                            var $childblock = Block($childtype, $childmarking);
+                            if (isType($blockdata[$key], 'object')) {
+                                if (isType(arguments[1], 'string'))
+                                    $childblock.data($blockdata[$key], arguments[1]);
+                                else $childblock.data($blockdata[$key]);
+                                $reservedAttributes.push($key);
+                            }
+                            this.add($childblock, (!isType($iterableKeys[$j + 1], 'null') && !isType($iterableKeys[$j + 1], 'undefined')) ? $iterableKeys[$j + 1] : null);
+                            $reservedAttributes.push($key);
                         } else {
                             if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
                                 if (isType(arguments[1], 'string'))
@@ -605,11 +633,21 @@ Block = function () {
     // construct blocks without data
     if (type == 'block') { // default block
         element = node('div');
-        element.className = 'block';
+        block.css({
+            width: '100%',
+            height: '100%',
+            display: 'table',
+            textAlign: 'center'
+        });
         var content = Block('div').class('content').mark('content');
+        content.css({
+            display: 'table-cell',
+            textAlign: 'center',
+            verticalAlign: 'middle',
+            margin: '0 auto'
+        });
         block.setAdd(content);
         block.__add(content);
-        block.__setAdd(content);
     } else { // custom defined blocks
         if (__blocks[type] != null) {
             block = __blocks[type].create();
@@ -620,20 +658,3 @@ Block = function () {
     block.attribute('block', marking);
     return block;
 };
-// add default block style to document
-var $s = document.createElement('style');
-$s.type = 'text/css';
-$s.innerHTML = '.block { ' +
-    	'width: 100%; ' +
-    	'height: 100%; ' +
-    	'display: table; ' +
-    	'text-align: center; ' +
-    '} ' +
-    '.block .content { ' +
-    	'display: table-cell; ' +
-    	'vertical-align: middle; ' +
-        'text-align: center; ' +
-        'margin: 0 auto; ' +
-    '}';
-document.getElementsByTagName('head')[0].appendChild($s);
-$s = null;
