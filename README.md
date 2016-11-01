@@ -23,16 +23,36 @@ block.js splits web design into three main divisions:
     - Binding content and style
     - Generating HTML blocks
 
-**But why block.js?**  
-block.js's syntax is ridiculously basic, making it easy to learn, retain, and use consistently. Its minimalistic style simplifies your coding workflow, combining **layout** (CSS) and **content** (text/attributes) with event management to easily generate responsive web pages. Don't worry about markup anymore — web design has *never* been easier.  
+
+**Why block.js?**  
+block.js's syntax is ridiculously basic, making it easy to learn, retain, and use consistently. Its minimalistic style simplifies your coding workflow, combining **layout** (CSS) and **content** (text/attributes) with event management to easily generate responsive web pages. Don't worry about markup anymore — web design has *never* been easier.
+
+&nbsp;   
+**But what is a "block" anyway?**  
+A "block" is a JavaScript object returned by the library's `Block()` function.
+- Blocks are essentially wrappers for DOM element objects
+- Blocks provide many convenience functions for manipulating the appearance and content of their elements
+- Blocks each have a name and a type, which can be either an HTML tag name (like `div`) or a custom block (which can be defined using methods outlined in the documentation)
+- Blocks can be created with JavaScript, like so
+
+    ```javascript
+    var exampleBlock = Block('myType', 'myName'); // a block of type 'myType' and name 'myName'
+    var mainBlock = Block('div', 'main'); // a block that wraps a `div` element and has name 'main'
+    ```
+- Blocks can also be created in the blockfile, a file with simple syntax outlining the data for creating blocks with different names, types and attributes/properties
+    - If blockfile syntax does not suit your needs (unthinkable!) because it is *too* ***simple*** *and* ***straightforward*** *for you*, all the same features can be used in JavaScript (but you will need to type more) <sub>*HINT: use blockfiles!*</sub>
+    - In addition JavaScript can be easily embedded into blockfiles (in both events, as callbacks, and as load time scripts) to create a hybrid markup/scripting language similar to [React.js](https://facebook.github.io/react/)'s [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html), but 100x simpler!
+- Blocks can read CSS/attribute/custom data from JavaScript objects or from blockfiles
+- Blocks listen for attached DOM events, custom events, and data events (events that occur when certain data is read or loaded)
+- Custom blocks that are created (as well as normal blocks) can be instructed to react differently to different data
 
 ## Getting Started
 *Get started in just* ***5*** *easy steps*  
 
 1. Load this code into a web server
     1. ***Use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), [node.js](http://nodejs.org), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Any web server should work.
-        - Example of a URL with a web server: `localhost/block.js/demo/demo.html`
         - Copy/clone the repository into your server's equivalent of a `www` or `htdocs` directory
+        - Example URL to access the demo with a web server: `localhost/block.js/demo/demo.html`
     2. "Why do I need web server?"
         - Block content/layout data is stored in "blockfiles", and loading them with AJAX GET requests is a best practice for enhanced user experience
         - Pure JavaScript XHR (XMLHTTPRequest) and jQuery AJAX (including both asynchronous/synchronous requests) are supported
@@ -80,6 +100,7 @@ block.js's syntax is ridiculously basic, making it easy to learn, retain, and us
     - Start your web server
         - Open your favorite web browser (Chrome) and go to `http://` (your IP/hostname+port, ie. `localhost:80` or `127.0.0.1:8000`) `/block.js/demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
+    - Type in the input box for some cool stuff
 5. Explanation (for further explanation of the code, read the comments in each file):
     - `demo/blocks.js` tells `block.js` how to create and load data into custom blocks
         - The types of custom blocks in this file: `break`, `text`, and `image`
@@ -87,7 +108,7 @@ block.js's syntax is ridiculously basic, making it easy to learn, retain, and us
         - block.js allows designers to wrap basic elements (i.e. line breaks, spans of text, or images) in reusable, customizable blocks
             - A `<br/>` tag creates one line break. A block of type `break`, as defined in this file, is a `span` tag filled with a customizable amount of line breaks. Better, right?
             - A `<span></span>` tag creates a simple span of text/HTML. A block of type `text`, as defined in this file, is a `span` tag filled with a customizable text node (XSS safe), rather than raw HTML (XSS unsafe). Safer, right?
-            - An `<img/>` tag creates a basic image. A block of type `image`, as defined in this file, is a `div` tag with a background image, and can be customized further to fade in once it has loaded. Cooler, right?
+            - An `<img/>` tag creates a basic image. A block of type `image`, as defined in this file, is a `div` tag with a background image, and can be customized further to fade in once it has loaded. Smoother, right?
             - There is one block, of type `block`, that is built into block.js. It is a combination of two `div` tags and certain CSS display properties that centers anything placed within, both vertically and horizontally. Amazing!
     - `demo/demo.js` tells `block.js` (when the window has loaded) to create a main block, load into it the blockfile, and add it to the page
     - `demo/demo.block` tells `block.js` to not only create blocks based on markings (names) and types but also load the content/layout data (text/attributes and CSS) into the created blocks

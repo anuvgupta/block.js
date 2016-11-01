@@ -19,6 +19,10 @@ demo
                 border-radius 20px
     break br1
         val 2
+    text testText
+        css
+            display block
+            font-family Papyrus
     input textbox1
         placeholder input
         type text
@@ -32,3 +36,7 @@ demo
             width 500px
             height 65px
             border-radius 8px
+        :keyup,keydown
+            {
+                block.sibling('testText').html(block.node().value);
+            }

@@ -82,15 +82,30 @@ Block = function () {
             var indents = (line.match(new RegExp(indentation, 'g')) || []).length; // count indentation level of line
             line = line.trim(); // remove indentation
             var space = line.search(/ /); // find first space in line (end of key name)
-            if (space == -1) { // if there is no space, key holds object value
+            if (space == -1) { // if there is no space, key holds object value or JavaScript
                 var key = line; // since the object value is not on the line, the line is the key name
                 var value = { }; // the value of this key is an object, declare/initialize
+                if (key == '{') { // for JavaScript
+                    var js = '';
+                    for (var j = i + 1; j < lines.length; j++) {
+                        var jsLine = lines[j]; // get line
+                        var jsFirst = jsLine.search(/\S/); // get position of first non-space char in line
+                        var jsIndents = (jsLine.match(new RegExp(indentation, 'g')) || []).length; // count indentation level of line
+                        jsLine = jsLine.trim(); // remove indentation
+                        if (jsLine == '}' && jsIndents == indents)
+                            break;
+                        else js += jsLine + '\n ';
+                    }
+                    i = j;
+                    key = '__js';
+                    value = js;
+                }
             } else if (isType(lines[i + 1], 'string') && first < lines[i + 1].search(/\S/)) { // if there is a space and also child lines, line builds new block
                 var key = line;
                 var value = { };
             } else { // if there is a space (and no child lines), key holds string value
                 var key = line.substring(0, space); // get the key (before the first space)
-                var value = line.substring(space + 1); //get the value (after the first space)
+                var value = line.substring(space + 1); // get the value (after the first space)
             }
             // each indent on the line represents a level in the blockdata object, thus
             path = path.slice(0, indents); // remove that many levels from last path (position in blockdata object)
@@ -314,20 +329,25 @@ Block = function () {
             var $block = this;
             if (isType($type, 'string')) {
                 if (isType($callback, 'function')) {
-                    $newCallback = function ($eObj) {
-                        $callback($eObj, $block, $eObj.detail);
+                    $newCallback = function ($e) {
+                        var $data = $e.detail;
+                        if (isType($e.detail, 'null') || isType($e.detail, 'undefined'))
+                            $callback($e, $block, { });
+                        else $callback($e, $block, $e.detail);
                     };
                     if (isType(arguments[2], 'string')) {
                         var $id = arguments[2];
                         var $name = $type + '_' + $id;
                         if (!isType(events[$type], 'object'))
                             events[$type] = { };
-                        events[$type][$id] = $newCallback;
-                        element.addEventListener($name, $newCallback, false);
+                        events[$type][$id] = function ($e) {
+                            $newCallback($e);
+                        };
+                        element.addEventListener($name, events[$type][$id], false);
                         events[$name] = function ($e) {
                             var $data = $e.detail;
                             if (isType($e.detail, 'null') || isType($e.detail, 'undefined'))
-                                $block.on($type, $id);
+                                $block.on($type, $id, { });
                             else $block.on($type, $id, $data);
                         };
                         element.addEventListener($type, events[$name], false);
@@ -348,6 +368,7 @@ Block = function () {
                         $event = document.createEventObject();
                         $event.eventType = $name;
                         element.fireEvent('on' + $name, $event);
+                        console.warn('Event data not supported');
                     }
                 }
             }
@@ -364,7 +385,7 @@ Block = function () {
             }
             if (isType($callbackB, 'function')) {
                 events[$type][$id] = null;
-                element.removeEventListener($type, $callbackB);
+                element.removeEventListener($type + '_' + $id, $callbackB);
             }
             return this;
         },
@@ -501,6 +522,7 @@ Block = function () {
             var $style = { };
             var $reservedAttributes = [];
             if (isType($blockdata, 'object')) {
+                $reservedAttributes.push('__keyOrder');
                 if (isType($blockdata['__keyOrder'], 'array'))
                     var $iterableKeys = $blockdata['__keyOrder'];
                 else var $iterableKeys = Object.keys($blockdata);
@@ -511,6 +533,12 @@ Block = function () {
                         if ($key == 'css') {
                             $style = $blockdata.css;
                             $reservedAttributes.push('css');
+                        } else if ($key == '__js') {
+                            eval('$jsCallback = function (event, block, data) { ' + $blockdata['__js'] + ' }');
+                            this.on('__temp_event', $jsCallback, '__rand');
+                            this.on('__temp_event', '__rand');
+                            this.off('__temp_event', '__rand');
+                            $reservedAttributes.push('__js');
                         } else if ($midspace > 0) {
                             var $childtype = $key.substring(0, $midspace);
                             var $childmarking = $key.substring($midspace + 1);
@@ -524,15 +552,39 @@ Block = function () {
                             this.add($childblock, (!isType($iterableKeys[$j + 1], 'null') && !isType($iterableKeys[$j + 1], 'undefined')) ? $iterableKeys[$j + 1] : null);
                             $reservedAttributes.push($key);
                         } else {
-                            if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
-                                if (isType(arguments[1], 'string'))
-                                    children[$key].data($blockdata[$key], arguments[1]);
-                                else children[$key].data($blockdata[$key]);
+                            if ($key.substring(0, 1) == ':') {
                                 $reservedAttributes.push($key);
+                                $dataToLoad = $blockdata[$key];
+                                $eventCallback = 'function (event, block, data) { ';
+                                if (isType($dataToLoad['__js'], 'string')) {
+                                    $eventCallback += $dataToLoad['__js'];
+                                    delete $dataToLoad['__js'];
+                                }
+                                if (!isType($dataToLoad, 'undefined') && !isType($dataToLoad, 'null')) {
+                                    $dataToLoad = JSON.stringify($dataToLoad);
+                                    if (isType(arguments[1], 'string')) {
+                                        $eventCallback += ' block.data(' + $dataToLoad + ', "' + arguments[1] + '");';
+                                    } else {
+                                        $eventCallback += ' block.data(' + $dataToLoad + ');';
+                                    }
+                                }
+                                eval('$eventCallback = ' + $eventCallback + ' };');
+                                $eventTypes = $key.substring(1).split(',');
+                                $eventTypes.forEach(function ($eventType) {
+                                    $eventType = $eventType.trim();
+                                    this.on($eventType, $eventCallback);
+                                }, this);
                             } else {
-                                if (isType($blockdata[$key], 'object'))
+                                if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
+                                    if (isType(arguments[1], 'string'))
+                                        children[$key].data($blockdata[$key], arguments[1]);
+                                    else children[$key].data($blockdata[$key]);
                                     $reservedAttributes.push($key);
-                                $data[$key] = $blockdata[$key];
+                                } else {
+                                    if (isType($blockdata[$key], 'object'))
+                                        $reservedAttributes.push($key);
+                                    $data[$key] = $blockdata[$key];
+                                }
                             }
                         }
                     }
