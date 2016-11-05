@@ -1,0 +1,17 @@
+{
+    "name": "language-block",
+    "version": "0.0.0",
+    "description": "Syntax for block.js",
+    "engines": {
+        "atom": "*"
+    },
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/anuvgupta/block.js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/anuvgupta/block.js/issues"
+    },
+    "license": "MIT"
+}
