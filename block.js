@@ -7,13 +7,9 @@
   Copyright: (c) 2016 Anuv Gupta
 */
 
-var __blocks = {  };
-var __$block = false;
-try { __$block = (typeof jQuery == 'function') || (typeof window.jQuery == 'function'); }
-catch (error) { __$block = false; }
 var Block;
 Block = function () {
-    // declare/initialize private instance fields
+    // instance fields
     var block;
     var addblock;
     var __addblock;
@@ -29,12 +25,13 @@ Block = function () {
     var keys = { };
     var blockdata = { count: 0 };
     var dataBindings = { };
-    // if new blocktype is being declared, add callbacks to __blocks object and return
+    var mediaQueries = { };
+    // if new blocktype is being declared, add callbacks to Block.blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
-        __blocks[type] = { };
-        __blocks[type].create = arguments[1];
+        Block.blocks[type] = { };
+        Block.blocks[type].create = arguments[1];
         if (arguments[2] != undefined && arguments[2] != null && typeof arguments[2] == 'function')
-            __blocks[type].load = arguments[2];
+            Block.blocks[type].load = arguments[2];
         return true;
     }
     // convenience methods
@@ -82,7 +79,7 @@ Block = function () {
             var indents = (line.match(new RegExp(indentation, 'g')) || []).length; // count indentation level of line
             line = line.trim(); // remove indentation
             var space = line.search(/ /); // find first space in line (end of key name)
-            if (space == -1) { // if there is no space, key holds object value or JavaScript
+            if (space == -1 || line.substring(0, 1) == ':' || line.substring(0, 1) == '@') { // if there is no space (or begins with a reserved event symbol), key holds object value or JavaScript
                 var key = line; // since the object value is not on the line, the line is the key name
                 var value = { }; // the value of this key is an object, declare/initialize
                 if (key == '{') { // for JavaScript
@@ -254,7 +251,7 @@ Block = function () {
         type: function () { // set or get type of block
             var $type = arguments[0];
             if (isType($type, 'string')) {
-                if (!isType(__blocks[$type], 'null') && !isType(__blocks[$type], 'undefined'))
+                if (!isType(Block.blocks[$type], 'null') && !isType(Block.blocks[$type], 'undefined'))
                     type = $type;
             } else return type;
             return this; // chain
@@ -360,15 +357,25 @@ Block = function () {
                     $data = arguments[arguments.length - 1];
                     if (isType($data, 'null') || isType($data, 'undefined') || !isType($data, 'object'))
                         $data = { };
-                    if (document.createEvent) {
-                        $event = document.createEvent('CustomEvent');
-                        $event.initCustomEvent($name, true, true, $data);
+                    if (window.CustomEvent) {
+                        $event = new CustomEvent($name, {
+                            detail: $data,
+                            bubbles: true,
+                            cancelable: true
+                        });
                         element.dispatchEvent($event);
-                    } else {
+                    } else if (document.createEvent) {
+                        $event = document.createEvent('Event');
+                        $event.initEvent($name, true, true, $data);
+                        element.dispatchEvent($event);
+                    } else if (document.createEventObject) {
                         $event = document.createEventObject();
                         $event.eventType = $name;
+                        $event.detail = $data;
                         element.fireEvent('on' + $name, $event);
-                        console.warn('Event data not supported');
+                        console.warn('Event bubbling and data not fully supported');
+                    } else {
+                        console.warn('Events not fully supported');
                     }
                 }
             }
@@ -503,7 +510,7 @@ Block = function () {
             return this; // chain
         },
         jQuery: function () { // jQuery the block's DOM element if jQuery present
-            if (__$block) {
+            if (Block.jQuery) {
                 var $block = this;
                 return jQuery.extend(jQuery(element), {
                     block: function () {
@@ -539,6 +546,64 @@ Block = function () {
                             this.on('__temp_event', '__rand');
                             this.off('__temp_event', '__rand');
                             $reservedAttributes.push('__js');
+                        } else if ($key.substring(0, 1) == ':') {
+                            $reservedAttributes.push($key);
+                            $dataToLoad = $blockdata[$key];
+                            $eventCallback = '';
+                            if (isType($dataToLoad['__js'], 'string')) {
+                                $eventCallback += $dataToLoad['__js'];
+                                delete $dataToLoad['__js'];
+                            }
+                            if (!isType($dataToLoad, 'undefined') && !isType($dataToLoad, 'null')) {
+                                $dataToLoad = JSON.stringify($dataToLoad);
+                                if (isType(arguments[1], 'string')) {
+                                    $eventCallback += ' block.data(' + $dataToLoad + ', "' + arguments[1] + '");';
+                                } else {
+                                    $eventCallback += ' block.data(' + $dataToLoad + ');';
+                                }
+                            }
+                            eval('$eventCallback = function (event, block, data) { ' + $eventCallback + ' };');
+                            $eventTypes = $key.substring(1).split(',');
+                            $eventTypes.forEach(function ($eventType) {
+                                this.on($eventType.trim(), $eventCallback);
+                            }, this);
+                        } else if ($key.substring(0, 1) == '@') {
+                            $reservedAttributes.push($key);
+                            if ($key.length > 6 && $key.substring(1, 6) == 'query') {
+                                $dataToLoad = $blockdata[$key];
+                                $callbackJS = '';
+                                if (isType($dataToLoad['__js'], 'string')) {
+                                    $callbackJS += $dataToLoad['__js'];
+                                    delete $dataToLoad['__js'];
+                                }
+                                if (!isType($dataToLoad, 'undefined') && !isType($dataToLoad, 'null')) {
+                                    $dataToLoad = JSON.stringify($dataToLoad);
+                                    if (isType(arguments[1], 'string')) {
+                                        $callbackJS += ' block.data(' + $dataToLoad + ', "' + arguments[1] + '");';
+                                    } else {
+                                        $callbackJS += ' block.data(' + $dataToLoad + ');';
+                                    }
+                                }
+                                $objectToEnd = $key.substring($key.search(/ /) + 1);
+                                $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
+                                $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
+                                $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
+                                $property = $propertyToEnd.substring(0, $propertyToEnd.search(/ /)).trim();
+                                $condition = $conditionToEnd.trim();
+                                if ($object == 'window') {
+                                    if ($property == 'height')
+                                        $property = 'innerHeight';
+                                    else if ($property == 'width')
+                                        $property = 'innerWidth';
+                                }
+                                $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
+                                if (!isType(mediaQueries[$object], 'object')) {
+                                    mediaQueries[$object] = { };
+                                    mediaQueries[$object][$property] = [];
+                                } else if (!isType(mediaQueries[$object][$property], 'array'))
+                                    mediaQueries[$object][$property] = [];
+                                mediaQueries[$object][$property].unshift($callbackJS);
+                            }
                         } else if ($midspace > 0) {
                             var $childtype = $key.substring(0, $midspace);
                             var $childmarking = $key.substring($midspace + 1);
@@ -552,39 +617,15 @@ Block = function () {
                             this.add($childblock, (!isType($iterableKeys[$j + 1], 'null') && !isType($iterableKeys[$j + 1], 'undefined')) ? $iterableKeys[$j + 1] : null);
                             $reservedAttributes.push($key);
                         } else {
-                            if ($key.substring(0, 1) == ':') {
+                            if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
+                                if (isType(arguments[1], 'string'))
+                                    children[$key].data($blockdata[$key], arguments[1]);
+                                else children[$key].data($blockdata[$key]);
                                 $reservedAttributes.push($key);
-                                $dataToLoad = $blockdata[$key];
-                                $eventCallback = 'function (event, block, data) { ';
-                                if (isType($dataToLoad['__js'], 'string')) {
-                                    $eventCallback += $dataToLoad['__js'];
-                                    delete $dataToLoad['__js'];
-                                }
-                                if (!isType($dataToLoad, 'undefined') && !isType($dataToLoad, 'null')) {
-                                    $dataToLoad = JSON.stringify($dataToLoad);
-                                    if (isType(arguments[1], 'string')) {
-                                        $eventCallback += ' block.data(' + $dataToLoad + ', "' + arguments[1] + '");';
-                                    } else {
-                                        $eventCallback += ' block.data(' + $dataToLoad + ');';
-                                    }
-                                }
-                                eval('$eventCallback = ' + $eventCallback + ' };');
-                                $eventTypes = $key.substring(1).split(',');
-                                $eventTypes.forEach(function ($eventType) {
-                                    $eventType = $eventType.trim();
-                                    this.on($eventType, $eventCallback);
-                                }, this);
                             } else {
-                                if (isType($blockdata[$key], 'object') && isType(children[$key], 'object')) {
-                                    if (isType(arguments[1], 'string'))
-                                        children[$key].data($blockdata[$key], arguments[1]);
-                                    else children[$key].data($blockdata[$key]);
+                                if (isType($blockdata[$key], 'object'))
                                     $reservedAttributes.push($key);
-                                } else {
-                                    if (isType($blockdata[$key], 'object'))
-                                        $reservedAttributes.push($key);
-                                    $data[$key] = $blockdata[$key];
-                                }
+                                $data[$key] = $blockdata[$key];
                             }
                         }
                     }
@@ -594,7 +635,7 @@ Block = function () {
             else if (isType($blockdata, 'null') || !isType($blockdata, 'object'))
                 $data = { };
             else return this;
-            if ((type != 'block') && !isType(__blocks[type], 'undefined') && !isType(__blocks[type], 'null')) {
+            if ((type != 'block') && !isType(Block.blocks[type], 'undefined') && !isType(Block.blocks[type], 'null')) {
                 var $getData = function ($key) {
                     if ($key == 'this')
                         return $data;
@@ -612,7 +653,7 @@ Block = function () {
                         return null;
                     else return $style[$property];
                 };
-                __blocks[type].load(this, $getData, $getStyle);
+                Block.blocks[type].load(this, $getData, $getStyle);
             }
             for ($property in $style) {
                 if ($style.hasOwnProperty($property))
@@ -659,7 +700,7 @@ Block = function () {
             var $asynch = arguments[3]; // use asynchronous request
             if ($asynch == null || $asynch == undefined) $asynch = true; // default to async
             if (isType($ajax, 'string') && $ajax.toLowerCase() === 'jquery') { // if jQuery request desired
-                if (__$block) { // if jQuery present
+                if (Block.jQuery) { // if jQuery present
                     jQuery.ajax({ // use jQuery ajax
                         url: $file + '.block',
                         type: 'GET',
@@ -701,12 +742,36 @@ Block = function () {
         block.setAdd(content);
         block.__add(content);
     } else { // custom defined blocks
-        if (__blocks[type] != null) {
-            block = __blocks[type].create();
+        if (Block.blocks[type] != null) {
+            block = Block.blocks[type].create();
             block.type(type);
             block.mark(marking);
         } else element = node(type);
     }
     block.attribute('block', marking);
+    $resizeCallback = function ($e) {
+        $callback = '';
+        for ($objectName in mediaQueries)
+            if (mediaQueries.hasOwnProperty($objectName)) {
+                $object = mediaQueries[$objectName];
+                for ($propertyName in $object)
+                    if ($object.hasOwnProperty($propertyName)) {
+                        $property = $object[$propertyName];
+                        for ($i in $property) {
+                            if ($i == 0) $callback += ' ' + $property[$i];
+                            else $callback += ' else ' + $property[$i]
+                        }
+                    }
+            }
+        eval('$callback = function (event, block, data) { ' + $callback + ' };');
+        if (isType($e.detail, 'null') || isType($e.detail, 'undefined'))
+            $callback($e, block, { });
+        else $callback($e, block, $e.detail);
+    };
+    window.addEventListener('resize', $resizeCallback);
     return block;
 };
+Block.blocks = { };
+Block.jQuery = false;
+try { Block.jQuery = (typeof jQuery == 'function') || (typeof window.jQuery == 'function'); }
+catch (error) { Block.jQuery = false; }

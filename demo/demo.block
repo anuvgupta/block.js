@@ -1,11 +1,13 @@
     *
 demo
+    break br0
+        block
     text text1
         val Hello World
         css
             font 30px Helvetica, Arial, sans-serif
             color blue
-    break br0
+    break br1
         block
     block imageBlock
         image image1
@@ -17,7 +19,7 @@ demo
                 display inline-block
                 overflow hidden
                 border-radius 20px
-    break br1
+    break br2
         val 2
     text testText
         css
@@ -29,14 +31,14 @@ demo
         css
             border none
             outline none
-            background-color #DDDDDD
             text-align center
             font-size 38px
             color grey
             width 500px
             height 65px
             border-radius 8px
-        :keyup,keydown
+            background-color #DDD
+        :keyup, keydown
             {
                 block.sibling('testText').html(block.node().value);
             }
