@@ -11,21 +11,21 @@ block.js splits web design into three main divisions:
 
 1. Block Layout
     - Defining tree of blocks
-    - Creating DOM and data events
-    - Manipulating blocks (no DOM)
-2. Content Creation  
-    - Adding text to fill blocks  
-    - Linking images/icons for visuals  
     - Presentation and Style
         - Modifying block appearance
         - Defining positions of blocks
+2. Content Creation  
+    - Adding text to fill blocks  
+    - Linking images/icons for visuals
+    - Manipulating blocks directly (no DOM)
+        - Creating element and data events
 3. Markup Generation
-    - Binding content and style
+    - Binding layout and content
     - Generating HTML blocks
 
 
 **Why block.js?**  
-block.js's syntax is ridiculously basic, making it easy to learn, retain, and use consistently. Its minimalistic style simplifies your coding workflow, combining **layout** (CSS) and **content** (text/attributes) with event management to easily generate responsive web pages. Don't worry about markup anymore — web design has *never* been easier.
+block.js's syntax is ridiculously basic, making it easy to learn, retain, and use consistently. Its minimalistic style simplifies your coding workflow, combining **layout** (CSS) and **content** (text/attributes) with event management to easily generate responsive web pages. Don't worry about **markup** anymore — web design has *never* been easier.
 
 &nbsp;   
 **But what is a "block" anyway?**  
