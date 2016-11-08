@@ -1,14 +1,14 @@
 {
-    "name": "language-blockjs",
+    "name": "language-block",
     "version": "0.0.0",
-    "description": "Syntax for block.js",
+    "description": "block.js language support in Atom",
     "engines": {
         "atom": "*"
     },
     "dependencies": {},
     "repository": {
         "type": "git",
-        "url": "https://github.com/anuvgupta/block.js.git"
+        "url": "https://github.com/anuvgupta/block.js/tree/atom"
     },
     "bugs": {
         "url": "https://github.com/anuvgupta/block.js/issues"

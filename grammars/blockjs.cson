@@ -1,0 +1,10 @@
+'scopeName': 'source.blockjs'
+'name': 'block.js'
+'fileTypes': ['block', 'blockjs']
+
+'patterns': [
+    {
+        'match': '/*/g'
+        'name': 'string'
+    }
+]
