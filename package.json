@@ -1,5 +1,5 @@
 {
-    "name": "language-block",
+    "name": "language-blockjs",
     "version": "0.0.0",
     "description": "Syntax for block.js",
     "engines": {

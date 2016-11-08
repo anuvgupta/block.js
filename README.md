@@ -1,2 +1,2 @@
-# block.js atom
-Language package for blockfile hybrid syntax for open source text editor [Atom](http://atom.io)
+# language-block.js
+Language support (for open source text editor [Atom](http://atom.io)) for blockfile hybrid syntax
