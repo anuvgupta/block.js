@@ -41,6 +41,7 @@ Block = function () {
         else if (type == 'undefined') return (val == undefined);
         else if (val === null || val == undefined) return false;
         else if (type == 'string') return ((typeof val === 'string') || (val instanceof String));
+        else if (type == 'function') return ((typeof val == 'function') || (val instanceof Function));
         else if (type == 'element') return (isType(val, 'object') && (val instanceof Node) && (val instanceof Element));
         else if (type == 'array') return ((typeof val === 'array') || (val instanceof Array));
         else if (type == 'object') return ((typeof val == 'object') || (val instanceof Object));
@@ -604,6 +605,9 @@ Block = function () {
                                     mediaQueries[$object][$property] = [];
                                 mediaQueries[$object][$property].unshift($callbackJS);
                             }
+                        } else if ($key.substring(0, 1) == '$') {
+                            $reservedAttributes.push($key);
+                            this.key($key.substring(1), $blockdata[$key]);
                         } else if ($midspace > 0) {
                             var $childtype = $key.substring(0, $midspace);
                             var $childmarking = $key.substring($midspace + 1);
@@ -636,22 +640,30 @@ Block = function () {
                 $data = { };
             else return this;
             if ((type != 'block') && !isType(Block.blocks[type], 'undefined') && !isType(Block.blocks[type], 'null')) {
-                var $getData = function ($key) {
+                var $getData = function ($key, $callback) {
+                    var $currentData;
                     if ($key == 'this')
-                        return $data;
+                        $currentData = $data;
                     else if (isType($data[$key], 'undefined') || isType($data[$key], 'null'))
-                        return null;
+                        $currentData = null;
                     else {
                         $reservedAttributes.push($key);
-                        return $data[$key];
+                        $currentData = $data[$key];
                     }
+                    if (isType($callback, 'function') && !isType($currentData, '=null') && !isType($currentData, 'undefined'))
+                        $callback($currentData);
+                    return $currentData;
                 };
-                var $getStyle = function ($property) {
+                var $getStyle = function ($property, $callback) {
+                    var $currentStyle;
                     if ($property == 'this')
-                        return $style;
+                        $currentStyle = $style;
                     else if (isType($style[$property], 'undefined') || isType($style[$property], 'null'))
-                        return null;
-                    else return $style[$property];
+                        $currentStyle = null;
+                    else $currentStyle = $style[$property];
+                    if (isType($callback, 'function') && !isType($currentStyle, '=null') && !isType($currentStyle, 'undefined'))
+                        $callback($currentStyle);
+                    return $currentStyle;
                 };
                 Block.blocks[type].load(this, $getData, $getStyle);
             }
