@@ -312,7 +312,7 @@ Block = function () {
             $data = arguments[1];
             if (isType($data, 'undefined') || isType($data, 'null')) {
                 if (isType(keys[$key], 'undefined') || isType(keys[$key], 'null'))
-                    keys[$key] = { };
+                    return null;
                 else return keys[$key];
             } else keys[$key] = $data;
             return this;
