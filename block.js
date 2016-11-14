@@ -563,7 +563,7 @@ Block = function () {
                                     $eventCallback += ' block.data(' + $dataToLoad + ');';
                                 }
                             }
-                            eval('$eventCallback = function (event, block, data) { ' + $eventCallback + ' };');
+                            eval('$eventCallback = function (event, block, data) {\n' + $eventCallback + '\n};');
                             $eventTypes = $key.substring(1).split(',');
                             $eventTypes.forEach(function ($eventType) {
                                 this.on($eventType.trim(), $eventCallback);
@@ -780,10 +780,27 @@ Block = function () {
             $callback($e, block, { });
         else $callback($e, block, $e.detail);
     };
-    window.addEventListener('resize', $resizeCallback);
+    window.addEventListener('blockjs_query', $resizeCallback);
     return block;
 };
-Block.blocks = { };
 Block.jQuery = false;
 try { Block.jQuery = (typeof jQuery == 'function') || (typeof window.jQuery == 'function'); }
 catch (error) { Block.jQuery = false; }
+Block.blocks = { };
+Block.parse = function (data, callback) {
+    var parsed = Block().parse(null, data, true);
+    if (callback != undefined && callback != null && typeof callback == 'function' && callback instanceof Function)
+        callback(parsed);
+    return parsed;
+};
+Block.queries = function (state) {
+    if (state === 'on')
+        window.addEventListener('resize', Block.queryListener);
+    else if (state === 'off')
+        window.removeEventListener('resize', Block.queryListener);
+    else window.dispatchEvent(new CustomEvent('blockjs_query'));
+};
+Block.queryListener = function () {
+    Block.queries();
+};
+Block.queries('on');
