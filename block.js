@@ -525,6 +525,34 @@ Block = function () {
         $: function () { // shortcut for jQuery function
             return this.jQuery();
         },
+        query: function ($query, $callback) {
+            if (isType($query, 'string')) {
+                var $callbackJS;
+                if (isType($callback, 'function'))
+                    $callbackJS = $callback.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1];
+                else if (isType($callback, 'string'))
+                    $callbackJS = $callback;
+                else return this;
+                $objectToEnd = $query.substring($query.search(/ /) + 1);
+                $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
+                $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
+                $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
+                $property = $propertyToEnd.substring(0, $propertyToEnd.search(/ /)).trim();
+                $condition = $conditionToEnd.trim();
+                if ($object == 'window') {
+                    if ($property == 'height') $property = 'innerHeight';
+                    else if ($property == 'width') $property = 'innerWidth';
+                }
+                $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
+                if (!isType(mediaQueries[$object], 'object')) {
+                    mediaQueries[$object] = { };
+                    mediaQueries[$object][$property] = [];
+                } else if (!isType(mediaQueries[$object][$property], 'array'))
+                    mediaQueries[$object][$property] = [];
+                mediaQueries[$object][$property].unshift($callbackJS);
+            }
+            return this; // chain
+        },
         data: function ($blockdata) { // load blockdata into current block and its children
             var $data = { };
             var $style = { };
@@ -585,25 +613,7 @@ Block = function () {
                                         $callbackJS += ' block.data(' + $dataToLoad + ');';
                                     }
                                 }
-                                $objectToEnd = $key.substring($key.search(/ /) + 1);
-                                $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
-                                $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
-                                $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
-                                $property = $propertyToEnd.substring(0, $propertyToEnd.search(/ /)).trim();
-                                $condition = $conditionToEnd.trim();
-                                if ($object == 'window') {
-                                    if ($property == 'height')
-                                        $property = 'innerHeight';
-                                    else if ($property == 'width')
-                                        $property = 'innerWidth';
-                                }
-                                $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
-                                if (!isType(mediaQueries[$object], 'object')) {
-                                    mediaQueries[$object] = { };
-                                    mediaQueries[$object][$property] = [];
-                                } else if (!isType(mediaQueries[$object][$property], 'array'))
-                                    mediaQueries[$object][$property] = [];
-                                mediaQueries[$object][$property].unshift($callbackJS);
+                                this.query($key, $callbackJS);
                             }
                         } else if ($key.substring(0, 1) == '$') {
                             $reservedAttributes.push($key);
