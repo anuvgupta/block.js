@@ -533,7 +533,7 @@ Block = function () {
                 else if (isType($callback, 'string'))
                     $callbackJS = $callback;
                 else return this;
-                $objectToEnd = $query.substring($query.search(/ /) + 1);
+                $objectToEnd = $query;
                 $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
                 $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
                 $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
@@ -613,7 +613,8 @@ Block = function () {
                                         $callbackJS += ' block.data(' + $dataToLoad + ');';
                                     }
                                 }
-                                this.query($key, $callbackJS);
+                                $query = $key.substring(7);
+                                this.query($query, $callbackJS);
                             }
                         } else if ($key.substring(0, 1) == '$') {
                             $reservedAttributes.push($key);
