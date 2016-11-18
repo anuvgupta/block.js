@@ -1,5 +1,5 @@
 # block.js
-block.js is a lightweight JavaScript library for generating reusable and customizable HTML blocks.  
+block.js is a lightweight JavaScript library for designing responsive web pages by generating reusable and customizable HTML blocks.  
 &nbsp;&nbsp;&nbsp;&nbsp;<sub>*inspired by [techlab](https://github.com/techlabeducation)'s View.js*</sub>  
 &nbsp;  
 Tired of rewriting the same `<html>` tags? Lost and confused in a web of `#css` selectors?  
