@@ -26,6 +26,7 @@ Block = function () {
     var blockdata = { count: 0 };
     var dataBindings = { };
     var mediaQueries = { };
+    var resizeQuery;
     // if new blocktype is being declared, add callbacks to Block.blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
         Block.blocks[type] = { };
@@ -39,11 +40,11 @@ Block = function () {
     // use convenience methods of Is to prevent type errors with optional parameters
     if (Is.unset(type))
         type = 'block';
-    if (marking == 1) marking = type;
+    if (marking == true) marking = type;
     else if (Is.unset(marking) || marking == 0) {
-        marking = Math.floor((Math.random() * 1000) + 1);
-        while (Is.obj(children[marking])) marking = Math.floor((Math.random() * 1000) + 1);
-        marking = '_' + marking.toString();
+        do {
+            marking = '_' + Math.floor((Math.random() * 1000) + 1).toString();
+        } while (Is.obj(children[marking]));
     }
 
     // declare/initialize public block object
@@ -209,7 +210,12 @@ Block = function () {
         key: function ($key) {
             $data = arguments[1];
             if (Is.unset($data)) {
-                if (Is.unset(keys[$key]))
+                if (!Is.str($key) && Is.obj($key)) {
+                    for ($subkey in $key) {
+                        if ($key.hasOwnProperty($subkey))
+                            keys[$subkey] = $key[$subkey];
+                    }
+                } else if (Is.unset(keys[$key]))
                     return null;
                 else return keys[$key];
             } else keys[$key] = $data;
@@ -450,7 +456,7 @@ Block = function () {
                 } else if (!Is.arr(mediaQueries[$object][$property]))
                     mediaQueries[$object][$property] = [];
                 mediaQueries[$object][$property].unshift($callbackJS);
-            }
+            } else resizeQuery(new CustomEvent(marking + '_query_' + (Math.floor(Date.now() / 1000).toString())));
             return this; // chain
         },
         data: function ($blockdata) { // load blockdata into current block and its children
@@ -458,9 +464,9 @@ Block = function () {
             var $style = { };
             var $reservedAttributes = [];
             if (Is.obj($blockdata)) {
-                $reservedAttributes.push('__keyOrder');
-                if (Is.arr($blockdata['__keyOrder']))
-                    var $iterableKeys = $blockdata['__keyOrder'];
+                $reservedAttributes.push('__keys');
+                if (Is.arr($blockdata['__keys']))
+                    var $iterableKeys = $blockdata['__keys'];
                 else var $iterableKeys = Object.keys($blockdata);
                 for (var $j = 0; $j < $iterableKeys.length; $j++) {
                     var $key = $iterableKeys[$j];
@@ -516,6 +522,19 @@ Block = function () {
                                 $query = $key.substring(7);
                                 this.query($query, $callbackJS);
                             }
+                        } else if ($key.substring(0, 1) == '!') {
+                            $reservedAttributes.push($key);
+                            var $type = $key.substring(1);
+                            $initJS = '';
+                            $callbacks = $blockdata[$key];
+                            if (Is.obj($callbacks['init']) && Is.str($callbacks['init']['__js']))
+                                $initJS = $callbacks['init']['__js'];
+                            eval('var $initCallback = function () {\n' + $initJS + '\n};');
+                            $dataJS = '';
+                            if (Is.obj($callbacks['load']) && Is.str($callbacks['load']['__js']))
+                                $dataJS = $callbacks['load']['__js'];
+                            eval('var $dataCallback = function (block, data, style) {\n' + $dataJS + '\n};');
+                            Block($type, $initCallback, $dataCallback);
                         } else if ($key.substring(0, 1) == '$') {
                             $reservedAttributes.push($key);
                             this.key($key.substring(1), $blockdata[$key]);
@@ -609,6 +628,12 @@ Block = function () {
             var $blockdata = Block.parse($data.substring($data.indexOf('*') + 2), $indentation);
             // do not load into current block if data desired
             if (arguments[arguments.length - 1] === true) return $blockdata;
+            $outsideData = { };
+            for ($prop in $blockdata) {
+                if ($blockdata.hasOwnProperty($prop) && $prop != marking)
+                    $outsideData[$prop] = $blockdata[$prop];
+            }
+            Block('u').data($outsideData);
             if (Is.str(arguments[2])) this.data($blockdata[marking], arguments[2]);
             else this.data($blockdata[marking]);
             if (Is.func($callback)) $callback(this);
@@ -672,7 +697,7 @@ Block = function () {
         } else element = Block.node(type);
     }
     block.attribute('block', marking);
-    $resizeCallback = function ($e) {
+    resizeQuery = function ($e) {
         $callback = '';
         for ($objectName in mediaQueries)
             if (mediaQueries.hasOwnProperty($objectName)) {
@@ -691,7 +716,7 @@ Block = function () {
             $callback($e, block, { });
         else $callback($e, block, $e.detail);
     };
-    window.addEventListener('blockjs_query', $resizeCallback);
+    window.addEventListener('blockjs_query', resizeQuery);
     return block;
 };
 
@@ -777,7 +802,7 @@ Block.parse = function (data, indentation) { // parse blockfile to object
         path = path.slice(0, indents); // remove that many levels from last path (position in blockdata object)
 
         // preserve key order
-        var __keyOrderPath = path.concat(['__keyOrder']);
+        var __keyOrderPath = path.concat(['__keys']);
         if (!Block.is.arr(Block.get(blockdata, __keyOrderPath)))
             Block.set(blockdata, __keyOrderPath, [key]);
         else Block.get(blockdata, __keyOrderPath).push(key);
