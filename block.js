@@ -476,15 +476,23 @@ Block = function () {
                             $style = $blockdata.css;
                             $reservedAttributes.push('css');
                         } else if ($key == '__js') {
-                            eval('$jsCallback = function (event, block, data) { ' + $blockdata['__js'] + ' }');
-                            this.on('__temp_event', $jsCallback, '__rand');
+                            eval(
+                                '/* block.js auto-generated JS clause\n' +
+                                '    (temporary event callback)\n' +
+                                '   block type = ' + type + '\n' +
+                                '   block marking = ' + marking + '\n' +
+                                '*/\n' +
+                                'var $callback = function (event, block, data) {\n\n' + $blockdata['__js'] + '\n\n};'
+                            );
+                            this.on('__temp_event', $callback, '__rand');
                             this.on('__temp_event', '__rand');
                             this.off('__temp_event', '__rand');
                             $reservedAttributes.push('__js');
                         } else if ($key.substring(0, 1) == ':') {
                             $reservedAttributes.push($key);
-                            $dataToLoad = $blockdata[$key];
-                            $eventCallback = '';
+                            var $dataToLoad = $blockdata[$key];
+                            var $eventTypes = $key.substring(1);
+                            var $eventCallback = '';
                             if (Is.str($dataToLoad['__js'])) {
                                 $eventCallback += $dataToLoad['__js'];
                                 delete $dataToLoad['__js'];
@@ -497,10 +505,18 @@ Block = function () {
                                     $eventCallback += ' block.data(' + $dataToLoad + ');';
                                 }
                             }
-                            eval('$eventCallback = function (event, block, data) {\n' + $eventCallback + '\n};');
-                            $eventTypes = $key.substring(1).split(',');
+                            eval(
+                                '/* block.js auto-generated event listener\n' +
+                                '    (event listener callback)\n' +
+                                '   block type = ' + type + '\n' +
+                                '   block marking = ' + marking + '\n' +
+                                '   events = ' + $eventTypes + '\n' +
+                                '*/\n' +
+                                'var $callback = function (event, block, data) {\n\n' + $eventCallback + '\n\n};'
+                            );
+                            $eventTypes = $eventTypes.split(',');
                             $eventTypes.forEach(function ($eventType) {
-                                this.on($eventType.trim(), $eventCallback);
+                                this.on($eventType.trim(), $callback);
                             }, this);
                         } else if ($key.substring(0, 1) == '@') {
                             $reservedAttributes.push($key);
@@ -525,15 +541,27 @@ Block = function () {
                         } else if ($key.substring(0, 1) == '!') {
                             $reservedAttributes.push($key);
                             var $type = $key.substring(1);
-                            $initJS = '';
-                            $callbacks = $blockdata[$key];
+                            var $initJS = '';
+                            var $callbacks = $blockdata[$key];
                             if (Is.obj($callbacks['init']) && Is.str($callbacks['init']['__js']))
                                 $initJS = $callbacks['init']['__js'];
-                            eval('var $initCallback = function () {\n' + $initJS + '\n};');
-                            $dataJS = '';
+                            eval(
+                                '/* block.js auto-generated custom block initialization\n' +
+                                '    (initialization callback)\n' +
+                                '   custom block type = ' + $type + '\n' +
+                                '*/\n' +
+                                'var $initCallback = function () {\n\n' + $initJS + '\n\n};'
+                            );
+                            var $dataJS = '';
                             if (Is.obj($callbacks['load']) && Is.str($callbacks['load']['__js']))
                                 $dataJS = $callbacks['load']['__js'];
-                            eval('var $dataCallback = function (block, data, style) {\n' + $dataJS + '\n};');
+                            eval(
+                                '/* block.js auto-generated custom block data loading\n' +
+                                '    (data loading callback)\n' +
+                                '   custom block type = ' + $type + '\n' +
+                                '*/\n' +
+                                'var $dataCallback = function (block, data, style) {\n\n' + $dataJS + '\n\n};'
+                            );
                             Block($type, $initCallback, $dataCallback);
                         } else if ($key.substring(0, 1) == '$') {
                             $reservedAttributes.push($key);
@@ -659,7 +687,8 @@ Block = function () {
             } else if ($ajax === true) { // if normal request desired
                 var $xhr; // use xhr object
                 if (window.XMLHttpRequest) $xhr = new XMLHttpRequest();
-                else $xhr = new ActiveXObject('Microsoft.XMLHTTP'); // IE support
+                else if (window.ActiveXObject) $xhr = new ActiveXObject('Microsoft.XMLHTTP'); // IE support
+                else console.warn('XHR (XMLHttpRequest) not supported');
                 $xhr.onreadystatechange = function () { // when data recieved, load blockdata
                     if ($xhr.readyState == 4 && $xhr.status == 200)
                         $next($callback, $xhr.responseText);
@@ -680,20 +709,22 @@ Block = function () {
             display: 'table',
             textAlign: 'center'
         });
-        var content = Block('div').class('content').mark('content');
-        content.css({
-            display: 'table-cell',
-            textAlign: 'center',
-            verticalAlign: 'middle',
-            margin: '0 auto'
-        });
-        block.setAdd(content);
-        block.__add(content);
+        var content = Block('div')
+            .mark('content')
+            .css({
+                display: 'table-cell',
+                textAlign: 'center',
+                verticalAlign: 'middle',
+                margin: '0 auto'
+            })
+        ;
+        block.setAdd(content).__add(content);
     } else { // custom defined blocks
         if (Block.blocks[type] != null) {
-            block = Block.blocks[type].create();
-            block.type(type);
-            block.mark(marking);
+            block = Block.blocks[type].create()
+                .type(type)
+                .mark(marking)
+            ;
         } else element = Block.node(type);
     }
     block.attribute('block', marking);
@@ -711,7 +742,14 @@ Block = function () {
                         }
                     }
             }
-        eval('$callback = function (event, block, data) { ' + $callback + ' };');
+        eval(
+            '/* block.js auto-generated media query\n' +
+            '    (window resize event callback)\n' +
+            '   block type = ' + type + '\n' +
+            '   block marking = ' + marking + '\n' +
+            '*/\n' +
+            '$callback = function (event, block, data) {\n\n' + $callback + '\n\n};'
+        );
         if (Is.unset($e.detail))
             $callback($e, block, { });
         else $callback($e, block, $e.detail);
@@ -730,6 +768,7 @@ Block.is = { // match types
     unset: function (v) { return (v == undefined || v === null); },
     str: function (v) { return (v !== null && v != undefined && (typeof v == 'string' || v instanceof String)); },
     func: function (v) { return (v !== null && v != undefined && (typeof v == 'function' || v instanceof Function)); },
+    node: function (v) { return (v !== null && v != undefined && (typeof v == 'object' || v instanceof Object) && v instanceof Node); },
     elem: function (v) { return (v !== null && v != undefined && (typeof v == 'object' || v instanceof Object) && v instanceof Node && v instanceof Element); },
     arr: function (v) { return (v !== null && v != undefined && (typeof v == 'array' || v instanceof Array)); },
     obj: function (v) { return (v !== null && v != undefined && (typeof v == 'object' || v instanceof Object)); },
