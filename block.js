@@ -187,19 +187,19 @@ Block = function () {
         css: function () { // set or get value of css property of current block
             var $property = arguments[0];
             if (Is.obj($property)) {
-                for ($p in $property) {
+                for (var $p in $property) {
                     if ($property.hasOwnProperty($p) && Is.str($property[$p]))
                         element.style[$p] = $property[$p];
                 }
             } else if (Is.str($property)) {
-                $value = arguments[1];
+                var $value = arguments[1];
                 if (Is.str($value))
                     element.style[$property] = $value;
                 else return element.style[$property];
             } else {
                 var $obj = { };
                 var $cssSD = element.style;
-                for ($prop in $cssSD) {
+                for (var $prop in $cssSD) {
                     if ($cssSD.hasOwnProperty($prop) && $cssSD[$prop] != '' && !(!isNaN(parseFloat($prop)) && isFinite($prop)))
                         $obj[$prop] = $cssSD[$prop];
                 }
@@ -208,7 +208,7 @@ Block = function () {
             return this;
         },
         key: function ($key) {
-            $data = arguments[1];
+            var $data = arguments[1];
             if (Is.unset($data)) {
                 if (!Is.str($key) && Is.obj($key)) {
                     for ($subkey in $key) {
@@ -231,7 +231,7 @@ Block = function () {
             var $block = this;
             if (Is.str($type)) {
                 if (Is.func($callback)) {
-                    $newCallback = function ($e) {
+                    var $newCallback = function ($e) {
                         var $data = $e.detail;
                         if (Is.unset($e.detail))
                             $callback($e, $block, { });
@@ -258,11 +258,11 @@ Block = function () {
                     if(Is.str($callback))
                         $name = $type + '_' + $callback;
                     else $name = $type;
-                    $data = arguments[arguments.length - 1];
+                    var $data = arguments[arguments.length - 1];
                     if (Is.unset($data) || !Is.obj($data))
                         $data = { };
                     if (window.CustomEvent) {
-                        $event = new CustomEvent($name, {
+                        var $event = new CustomEvent($name, {
                             detail: $data,
                             bubbles: true,
                             cancelable: true
@@ -439,17 +439,17 @@ Block = function () {
                 else if (Is.str($callback))
                     $callbackJS = $callback;
                 else return this;
-                $objectToEnd = $query;
-                $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
-                $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
-                $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
-                $property = $propertyToEnd.substring(0, $propertyToEnd.search(/ /)).trim();
-                $condition = $conditionToEnd.trim();
+                var $objectToEnd = $query;
+                var $propertyToEnd = $objectToEnd.substring($objectToEnd.search(/ /) + 1);
+                var $conditionToEnd = $propertyToEnd.substring($propertyToEnd.search(/ /) + 1);
+                var $object = $objectToEnd.substring(0, $objectToEnd.search(/ /)).trim();
+                var $property = $propertyToEnd.substring(0, $propertyToEnd.search(/ /)).trim();
+                var $condition = $conditionToEnd.trim();
                 if ($object == 'window') {
                     if ($property == 'height') $property = 'innerHeight';
                     else if ($property == 'width') $property = 'innerWidth';
                 }
-                $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
+                var $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
                 if (!Is.obj(mediaQueries[$object])) {
                     mediaQueries[$object] = { };
                     mediaQueries[$object][$property] = [];
@@ -522,7 +522,7 @@ Block = function () {
                             $reservedAttributes.push($key);
                             if ($key.length > 6 && $key.substring(1, 6) == 'query') {
                                 $dataToLoad = $blockdata[$key];
-                                $callbackJS = '';
+                                var $callbackJS = '';
                                 if (Is.str($dataToLoad['__js'])) {
                                     $callbackJS += $dataToLoad['__js'];
                                     delete $dataToLoad['__js'];
@@ -535,7 +535,7 @@ Block = function () {
                                         $callbackJS += ' block.data(' + $dataToLoad + ');';
                                     }
                                 }
-                                $query = $key.substring(7);
+                                var $query = $key.substring(7);
                                 this.query($query, $callbackJS);
                             }
                         } else if ($key.substring(0, 1) == '!') {
@@ -625,15 +625,15 @@ Block = function () {
                 };
                 Block.blocks[type].load(this, $getData, $getStyle);
             }
-            for ($property in $style) {
+            for (var $property in $style) {
                 if ($style.hasOwnProperty($property))
                     element.style[$property] = $style[$property];
             }
-            for ($key in dataBindings) {
+            for (var $key in dataBindings) {
                 if (dataBindings.hasOwnProperty($key) && $data.hasOwnProperty($key))
                     dataBindings[$key]($data[$key], this);
             }
-            for ($key in $data) {
+            for (var $key in $data) {
                 if ($data.hasOwnProperty($key) && !Block.inArr($key, $reservedAttributes))
                     element.setAttribute($key, $data[$key]);
             }
@@ -656,8 +656,8 @@ Block = function () {
             var $blockdata = Block.parse($data.substring($data.indexOf('*') + 2), $indentation);
             // do not load into current block if data desired
             if (arguments[arguments.length - 1] === true) return $blockdata;
-            $outsideData = { };
-            for ($prop in $blockdata) {
+            var $outsideData = { };
+            for (var $prop in $blockdata) {
                 if ($blockdata.hasOwnProperty($prop) && $prop != marking)
                     $outsideData[$prop] = $blockdata[$prop];
             }
@@ -725,18 +725,24 @@ Block = function () {
                 .type(type)
                 .mark(marking)
             ;
+            /* type is overwritten!
+                thus, for custom blocks:
+                    one can return Block('tagname') in init, no problem
+                    one cannot return Block('customblocktype') in init, causes block pseudo inheritance issues
+                        instead return Block('div').add(Block('customblocktype')) to access parent block
+            */
         } else element = Block.node(type);
     }
     block.attribute('block', marking);
     resizeQuery = function ($e) {
-        $callback = '';
-        for ($objectName in mediaQueries)
+        var $callback = '';
+        for (var $objectName in mediaQueries)
             if (mediaQueries.hasOwnProperty($objectName)) {
-                $object = mediaQueries[$objectName];
-                for ($propertyName in $object)
+                var $object = mediaQueries[$objectName];
+                for (var $propertyName in $object)
                     if ($object.hasOwnProperty($propertyName)) {
-                        $property = $object[$propertyName];
-                        for ($i in $property) {
+                        var $property = $object[$propertyName];
+                        for (var $i in $property) {
                             if ($i == 0) $callback += ' ' + $property[$i];
                             else $callback += ' else ' + $property[$i]
                         }
@@ -829,6 +835,20 @@ Block.parse = function (data, indentation) { // parse blockfile to object
                 i = j;
                 key = '__js';
                 value = js;
+            } else if (key == '`') { // for multiline strings
+                var str = '';
+                for (var s = i + 1; s < lines.length; s++) {
+                    var strLine = lines[s]; // get line
+                    var strFirst = strLine.search(/\S/); // get position of first non-space char in line
+                    var strIndents = (strLine.match(new RegExp(indentation, 'g')) || []).length; // count indentation level of line
+                    strLine = strLine.trim(); // remove indentation
+                    if (strLine == '`' && strIndents == indents)
+                        break;
+                    else str += strLine + '\n ';
+                }
+                i = s;
+                key = '__str';
+                value = str;
             }
         } else if (Block.is.str(lines[i + 1]) && first < lines[i + 1].search(/\S/)) { // if there is a space and also child lines, line builds new block
             var key = line;
@@ -840,32 +860,15 @@ Block.parse = function (data, indentation) { // parse blockfile to object
         // each indent on the line represents a level in the blockdata object, thus
         path = path.slice(0, indents); // remove that many levels from last path (position in blockdata object)
 
-        // preserve key order
-        var __keyOrderPath = path.concat(['__keys']);
-        if (!Block.is.arr(Block.get(blockdata, __keyOrderPath)))
-            Block.set(blockdata, __keyOrderPath, [key]);
-        else Block.get(blockdata, __keyOrderPath).push(key);
+        if (key != '__str') {
+            // preserve key order
+            var __keyOrderPath = path.concat(['__keys']);
+            if (!Block.is.arr(Block.get(blockdata, __keyOrderPath)))
+                Block.set(blockdata, __keyOrderPath, [key]);
+            else Block.get(blockdata, __keyOrderPath).push(key);
 
-        path.push(key); // add key to current level to generate the current path
-
-        /* example
-            car
-                details
-                    make Lamborghini
-                    model Reventon
-                color chrome
-                owner Joe
-            driver
-                name Joe
-
-            car @ indent level 0: base level key, add to base of blockdata object; current path: ['car']
-            details @ indent level 1: key, add to car object; current path: ['car' ,'details']
-            make @ indent level 2: key:value pair, add to details object; current path: ['car', 'details', 'make']
-            model @ indent level 2: key:value pair, add to details object; current path: ['car', 'details', 'model']
-            color @ indent level 1: key:value pair, get first element of path (car), add to car object; current path: ['car', 'color']
-            driver @ indent level 0: base level key, get 0 element of path (blockdata), add to base of blockdata object; current path: ['driver']
-            name @ indent level 1: key:value pair, add to driver obejct; current path: ['driver', 'name']
-        */
+            path.push(key); // add key to current level to generate the current path
+        }
         Block.set(blockdata, path, value); // use recursive convenience function to modify blockdata object accordingly
     }
     return blockdata; // return the fully formed blockdata object, with the key order
