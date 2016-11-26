@@ -563,6 +563,22 @@ Block = function () {
                                 'var $dataCallback = function (block, data, style) {\n\n' + $dataJS + '\n\n};'
                             );
                             Block($type, $initCallback, $dataCallback);
+                        } else if ($key.substring(0, 1) == '#') {
+                            $reservedAttributes.push($key);
+                            var $name = $key.substring(1);
+                            var callbackJS = ''
+                            if (Is.obj($blockdata[$key]) && Is.str($blockdata[$key]['__js']))
+                                $callbackJS = $blockdata[$key]['__js'];
+                            eval(
+                                '/* block.js auto-generated data binding\n' +
+                                '    ("on-the-fly" data binding callback)\n' +
+                                '   block type = ' + type + '\n' +
+                                '   block marking = ' + marking + '\n' +
+                                '   data name = ' + $name + '\n' +
+                                '*/\n' +
+                                'var $callback = function (' + $name + ') {\n' + $callbackJS + '\n};'
+                            );
+                            this.bind($name, $callback);
                         } else if ($key.substring(0, 1) == '$') {
                             $reservedAttributes.push($key);
                             this.key($key.substring(1), $blockdata[$key]);
@@ -630,8 +646,10 @@ Block = function () {
                     element.style[$property] = $style[$property];
             }
             for (var $key in dataBindings) {
-                if (dataBindings.hasOwnProperty($key) && $data.hasOwnProperty($key))
+                if (dataBindings.hasOwnProperty($key) && $data.hasOwnProperty($key)) {
+                    $reservedAttributes.push($key);
                     dataBindings[$key]($data[$key], this);
+                }
             }
             for (var $key in $data) {
                 if ($data.hasOwnProperty($key) && !Block.inArr($key, $reservedAttributes))
