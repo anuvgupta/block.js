@@ -4,7 +4,7 @@ block.js is a lightweight JavaScript library for designing responsive web pages 
 &nbsp;  
 Tired of rewriting the same `<html>` tags? Lost and confused in a web of `#css` selectors?  
 Just want to create *simple, aesthetic, responsive* web pages? **block.js is for you!**  
-#### Visit [anuv.me/block.js](http://anuv.me/block.js)  
+#### Visit [github.anuv.me/block.js](http://github.anuv.me/block.js)  
 
 ## Philosophy
 block.js splits web design into three main divisions:
