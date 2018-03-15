@@ -115,16 +115,16 @@ A "block" is a JavaScript object returned by the library's `Block()` function.
     - For more information on creating and manipulating blocks, blocks of type `block`, defining custom blocks, blockfile syntax, content binding, and much more, refer below to further tutorials and documentation
 
 ## Further Tutorials
-View this tutorial and others at [anuv.me/block.js/tutorials](http://anuv.me/block.js/tutorials)
+View this tutorial and others at [github.anuv.me/block.js/tutorials](http://github.anuv.me/block.js/tutorials)
 
 ## Documentation
-View all API docs and tutorials at [anuv.me/block.js/docs](http://anuv.me/block.js/docs)
+View all API docs and tutorials at [github.anuv.me/block.js/docs](http://github.anuv.me/block.js/docs)
 &nbsp;  
 &nbsp;  
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://anuv.me/block.js/img/logo/jQueryB_75.png)](https://jquery.com/) [![HTML5](http://anuv.me/block.js/img/logo/html5_75.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://anuv.me/block.js/img/logo/css3_75.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://anuv.me/block.js/img/logo/js5_75.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
-[![AngularJS](http://anuv.me/pocketjs/img/logo/node_75.png)](https://nodejs.org/)  
+&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://github.anuv.me/block.js/img/logo/jQueryB_75.png)](https://jquery.com/) [![HTML5](http://github.anuv.me/block.js/img/logo/html5_75.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://github.anuv.me/block.js/img/logo/css3_75.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://github.anuv.me/block.js/img/logo/js5_75.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
+[![AngularJS](http://github.anuv.me/pocketjs/img/logo/node_75.png)](https://nodejs.org/)  
 block.js is compatible with many libraries and frameworks.  
 For more questions about compatibility, email me at [blockjs@anuv.me](mailto:blockjs@anuv.me?Subject=Compatibility%20Issue)  
 &nbsp;  
