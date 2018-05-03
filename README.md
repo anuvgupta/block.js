@@ -41,21 +41,21 @@ A "block" is a JavaScript object returned by the library's `Block()` function.
     ```
 - Blocks can also be created in the blockfile, a file with simple syntax outlining the data for creating blocks with different names, types and attributes/properties
     - If blockfile syntax does not suit your needs (unthinkable!) because it is *too* ***simple*** *and* ***straightforward*** *for you*, all the same features can be used in JavaScript (but you will need to type more) <sub>*HINT: use blockfiles!*</sub>
-    - In addition JavaScript can be easily embedded into blockfiles (in both events, as callbacks, and as load time scripts) to create a hybrid markup/scripting language similar to [React.js](https://facebook.github.io/react/)'s [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html), but 100x simpler!
+    - In addition JavaScript can be easily embedded into blockfiles (in both events, as callbacks, and as load time scripts) to create a hybrid markup/scripting language
 - Blocks can read CSS/attribute/custom data from JavaScript objects or from blockfiles
 - Blocks listen for attached DOM events, custom events, and data events (events that occur when certain data is read or loaded)
 - Custom blocks that are created (as well as normal blocks) can be instructed to react differently to different data
 
 ## Getting Started
-*Get started in just* ***5*** *easy steps*  
+*Get started in* ***5*** *easy steps*  
 
 1. Load this code into a web server
-    1. ***Use a web server!*** It can be a simple [Apache](https://httpd.apache.org/) server, full-blown [XAMPP](https://www.apachefriends.org/index.html), [node.js](http://nodejs.org), ruby [WEBricks](http://ruby-doc.org/stdlib-2.0.0/libdoc/webrick/rdoc/WEBrick.html) or [Rails](http://rubyonrails.org/), or even a tiny python [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html). Any web server should work.
+    1. **Use a web server.** Apache, node.js, nginx, etc. Any web server should work.
         - Copy/clone the repository into your server's equivalent of a `www` or `htdocs` directory
         - Example URL to access the demo with a web server: `localhost/block.js/demo/demo.html`
     2. "Why do I need web server?"
         - Block content/layout data is stored in "blockfiles", and loading them with AJAX GET requests is a best practice for enhanced user experience
-        - Pure JavaScript XHR (XMLHTTPRequest) and jQuery AJAX (including both asynchronous/synchronous requests) are supported
+        - Pure JavaScript XHR (XMLHTTPRequest) and jQuery AJAX are supported
         - Example blockfile (taken from `demo/demo.block`):
 
             ```
@@ -69,10 +69,8 @@ A "block" is a JavaScript object returned by the library's `Block()` function.
             ```
 
     3. Works with all modern and most old browsers
-        - See [caniuse.com](http://caniuse.com/#feat=xhr2) for more info on XHR cross-browser support
-        - Newer versions of IE7+ support XHR, and block.js supports XHR for IE5 and IE6
-        - However, we recommend that you don't worry about browser support before IE7 (usage is globally low past that point, and capability in terms of CSS and event management is low)
-2. With your favorite text editor (Atom), open `demo/demo.html` - it should have following contents:
+        - See [caniuse.com](http://caniuse.com/#feat=xhr2) for more info on XHR cross-browser support (recommended that you don't worry about browser support before IE7, usage is globally low past that point)
+2. With your favorite text editor, open `demo/demo.html` - it should have following contents:
 
     ```html
     <!DOCTYPE html>
@@ -90,7 +88,7 @@ A "block" is a JavaScript object returned by the library's `Block()` function.
     ```
 
     A fun fact: **This is all the HTML that you will ever need!** &nbsp; <sub>goodbye, `<tags>`!</sub>
-3. A quick rundown of the purpose each file in the repository:
+3. A quick rundown of the purpose of each file in the repository:
     - `block.js` - the base code for the block.js library
     - `demo/demo.html` - the basic HTML markup that loads all scripts
     - `demo/blocks.js` - the JavaScript for defining and loading custom blocks
@@ -98,7 +96,7 @@ A "block" is a JavaScript object returned by the library's `Block()` function.
     - `demo/demo.block` - the blockfile, which contains block/content/layout data
 4. See how block.js translates your blockfile into HTML/CSS
     - Start your web server
-        - Open your favorite web browser (Chrome) and go to `http://` (your IP/hostname+port, ie. `localhost:80` or `127.0.0.1:8000`) `/block.js/demo/demo.html` in your browser
+        - Open your favorite web browser and go to `http://` (your IP/hostname+port, ie. `localhost:80` or `127.0.0.1:8000`) `/block.js/demo/demo.html` in your browser
     - See `Hello World`, a Cavalier King Charles Spaniel, and an input box on the screen!
     - Type in the input box for some cool stuff
 5. Explanation (for further explanation of the code, read the comments in each file):
@@ -123,9 +121,7 @@ View all API docs and tutorials at [github.anuv.me/block.js/docs](http://github.
 &nbsp;  
 
 # Compatibility
-&nbsp;&nbsp;&nbsp;&nbsp;[![jQuery](http://github.anuv.me/block.js/img/logo/jQueryB_75.png)](https://jquery.com/) [![HTML5](http://github.anuv.me/block.js/img/logo/html5_75.png)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) [![CSS3](http://github.anuv.me/block.js/img/logo/css3_75.png)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) [![EcmaScript6](http://github.anuv.me/block.js/img/logo/js5_75.png)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_6_support_in_Mozilla)
-[![AngularJS](http://github.anuv.me/pocketjs/img/logo/node_75.png)](https://nodejs.org/)  
-block.js is compatible with many libraries and frameworks.  
+block.js is compatible with many libraries and frameworks, although only jQuery is integrated into block.js itself. 
 For more questions about compatibility, email me at [blockjs@anuv.me](mailto:blockjs@anuv.me?Subject=Compatibility%20Issue)  
 &nbsp;  
 # License
