@@ -4,7 +4,7 @@
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
   License: MIT [https://github.com/anuvgupta/block.js/blob/v3/LICENSE.md]
-  Copyright: (c) 2016 Anuv Gupta
+  Copyright: (c) 2018 Anuv Gupta
 */
 
 var Block;
