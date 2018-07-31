@@ -1,5 +1,5 @@
 /*
-  block.js v3.0
+  block.js v3.1
   [http://anuv.me/block.js]
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
@@ -475,6 +475,9 @@ Block = function () {
                         if ($key == 'css') {
                             $style = $blockdata.css;
                             $reservedAttributes.push('css');
+                        } else if ($key == 'html') {
+                            this.html($blockdata[$key]);
+                            $reservedAttributes.push($key);
                         } else if ($key == '__js') {
                             eval(
                                 '/* block.js auto-generated JS clause\n' +
