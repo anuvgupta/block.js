@@ -1,3 +1,11 @@
+/*
+  block.js v1.0
+  [http://github.anuv.me/block.js]
+  File: block.js (block.js master)
+  Source: [https://github.com/anuvgupta/block.js/tree/v1]
+  License: MIT [https://github.com/anuvgupta/block.js/blob/v1/LICENSE.md]
+  Copyright: (c) 2016 Anuv Gupta
+*/
 var Block;
 Block = function () {
     var element;
