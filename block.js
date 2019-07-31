@@ -1,10 +1,10 @@
 /*
-  block.js v3.1
+  block.js v3.2
   [http://github.anuv.me/block.js]
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
   License: MIT [https://github.com/anuvgupta/block.js/blob/v3/LICENSE.md]
-  Copyright: (c) 2018 Anuv Gupta
+  Copyright: (c) 2019 Anuv Gupta
 */
 
 var Block;
@@ -14,22 +14,22 @@ Block = function () {
     var addblock;
     var __addblock;
     var element;
-    var events = { };
-    var customEvents = { };
+    var events = {};
+    var customEvents = {};
     var type = arguments[0];
     var marking = arguments[1];
     var parent;
     var __parent;
-    var children = { };
-    var __children = { };
-    var keys = { };
+    var children = {};
+    var __children = {};
+    var keys = {};
     var blockdata = { count: 0 };
-    var dataBindings = { };
-    var mediaQueries = { };
+    var dataBindings = {};
+    var mediaQueries = {};
     var resizeQuery;
     // if new blocktype is being declared, add callbacks to Block.blocks object and return
     if (marking != undefined && marking != null && typeof marking == 'function') {
-        Block.blocks[type] = { };
+        Block.blocks[type] = {};
         Block.blocks[type].create = arguments[1];
         if (arguments[2] != undefined && arguments[2] != null && typeof arguments[2] == 'function')
             Block.blocks[type].load = arguments[2];
@@ -116,7 +116,7 @@ Block = function () {
         },
         remove: function () {
             $marking = arguments[0];
-            if (Is.null($marking) && Is.undef($marking) && Is.null(parent) && Is.undef(parent))
+            if (Is.null($marking) && Is.undef($marking) && !Is.null(parent) && !Is.undef(parent))
                 parent.remove(marking);
             else if (Is.str($marking) && !Is.null(children[$marking])) {
                 if (Is.obj(addblock) && addblock.block)
@@ -128,7 +128,7 @@ Block = function () {
         },
         __remove: function () {
             $marking = arguments[0];
-            if (Is.null($marking) && Is.undef($marking) && Is.null(__parent) && Is.undef(__parent))
+            if (Is.null($marking) && Is.undef($marking) && !Is.null(__parent) && !Is.undef(__parent))
                 __parent.__remove(marking);
             else if (Is.str($marking) && !Is.null(__children[$marking])) {
                 if (Is.obj(__addblock) && __addblock.block)
@@ -197,7 +197,7 @@ Block = function () {
                     element.style[$property] = $value;
                 else return element.style[$property];
             } else {
-                var $obj = { };
+                var $obj = {};
                 var $cssSD = element.style;
                 for (var $prop in $cssSD) {
                     if ($cssSD.hasOwnProperty($prop) && $cssSD[$prop] != '' && !(!isNaN(parseFloat($prop)) && isFinite($prop)))
@@ -234,14 +234,14 @@ Block = function () {
                     var $newCallback = function ($e) {
                         var $data = $e.detail;
                         if (Is.unset($e.detail))
-                            $callback($e, $block, { });
+                            $callback($e, $block, {});
                         else $callback($e, $block, $e.detail);
                     };
                     if (Is.str(arguments[2])) {
                         var $id = arguments[2];
                         var $name = $type + '_' + $id;
                         if (!Is.obj(events[$type]))
-                            events[$type] = { };
+                            events[$type] = {};
                         events[$type][$id] = function ($e) {
                             $newCallback($e);
                         };
@@ -249,18 +249,18 @@ Block = function () {
                         events[$name] = function ($e) {
                             var $data = $e.detail;
                             if (Is.unset($e.detail))
-                                $block.on($type, $id, { });
+                                $block.on($type, $id, {});
                             else $block.on($type, $id, $data);
                         };
                         element.addEventListener($type, events[$name], false);
                     } else element.addEventListener($type, $newCallback, false);
                 } else {
-                    if(Is.str($callback))
+                    if (Is.str($callback))
                         $name = $type + '_' + $callback;
                     else $name = $type;
                     var $data = arguments[arguments.length - 1];
                     if (Is.unset($data) || !Is.obj($data))
-                        $data = { };
+                        $data = {};
                     if (window.CustomEvent) {
                         var $event = new CustomEvent($name, {
                             detail: $data,
@@ -324,7 +324,7 @@ Block = function () {
             if (Is.str($marking)) {
                 if ($marking.includes('/'))
                     return __children[$marking.substring(0, $marking.indexOf('/'))].__child($marking.substring($marking.indexOf('/') + 1));
-                else if(Is.set(__children[$marking]))
+                else if (Is.set(__children[$marking]))
                     return __children[$marking];
                 else return null;
             } else return null;
@@ -451,7 +451,7 @@ Block = function () {
                 }
                 var $callbackJS = 'if (' + $object + '.' + $property + ' ' + $condition + ') { ' + $callbackJS + ' }';
                 if (!Is.obj(mediaQueries[$object])) {
-                    mediaQueries[$object] = { };
+                    mediaQueries[$object] = {};
                     mediaQueries[$object][$property] = [];
                 } else if (!Is.arr(mediaQueries[$object][$property]))
                     mediaQueries[$object][$property] = [];
@@ -460,8 +460,8 @@ Block = function () {
             return this; // chain
         },
         data: function ($blockdata) { // load blockdata into current block and its children
-            var $data = { };
-            var $style = { };
+            var $data = {};
+            var $style = {};
             var $reservedAttributes = [];
             if (Is.obj($blockdata)) {
                 $reservedAttributes.push('__keys');
@@ -614,7 +614,7 @@ Block = function () {
             } else if (Is.str($blockdata) || Is.int($blockdata))
                 $data = { val: $blockdata };
             else if (Is.null($blockdata) || !Is.obj($blockdata))
-                $data = { };
+                $data = {};
             else return this;
             if ((type != 'block') && Is.set(Block.blocks[type])) {
                 var $getData = function ($key, $callback) {
@@ -677,7 +677,7 @@ Block = function () {
             var $blockdata = Block.parse($data.substring($data.indexOf('*') + 2), $indentation);
             // do not load into current block if data desired
             if (arguments[arguments.length - 1] === true) return $blockdata;
-            var $outsideData = { };
+            var $outsideData = {};
             for (var $prop in $blockdata) {
                 if ($blockdata.hasOwnProperty($prop) && $prop != marking)
                     $outsideData[$prop] = $blockdata[$prop];
@@ -738,14 +738,14 @@ Block = function () {
                 verticalAlign: 'middle',
                 margin: '0 auto'
             })
-        ;
+            ;
         block.setAdd(content).__add(content);
     } else { // custom defined blocks
         if (Block.blocks[type] != null) {
             block = Block.blocks[type].create()
                 .type(type)
                 .mark(marking)
-            ;
+                ;
             /* type is overwritten!
                 thus, for custom blocks:
                     one can return Block('tagname') in init, no problem
@@ -778,7 +778,7 @@ Block = function () {
             '$callback = function (event, block, data) {\n\n' + $callback + '\n\n};'
         );
         if (Is.unset($e.detail))
-            $callback($e, block, { });
+            $callback($e, block, {});
         else $callback($e, block, $e.detail);
     };
     window.addEventListener('blockjs_query', resizeQuery);
@@ -827,7 +827,7 @@ Block.get = function (object, path) { // recursively get field from within objec
 };
 
 Block.parse = function (data, indentation) { // parse blockfile to object
-    var blockdata = { }; // declare/init blockdata object
+    var blockdata = {}; // declare/init blockdata object
     var path = []; // declare/init path array
     var lines = data.split('\n'); // split each line into array
     for (var i = 0; i < lines.length; i++) { // for each line
@@ -841,7 +841,7 @@ Block.parse = function (data, indentation) { // parse blockfile to object
         var space = line.search(/ /); // find first space in line (end of key name)
         if (space == -1 || line.substring(0, 1) == ':' || line.substring(0, 1) == '@') { // if there is no space (or begins with a reserved event symbol), key holds object value or JavaScript
             var key = line; // since the object value is not on the line, the line is the key name
-            var value = { }; // the value of this key is an object, declare/initialize
+            var value = {}; // the value of this key is an object, declare/initialize
             if (key == '{') { // for JavaScript
                 var js = '';
                 for (var j = i + 1; j < lines.length; j++) {
@@ -873,7 +873,7 @@ Block.parse = function (data, indentation) { // parse blockfile to object
             }
         } else if (Block.is.str(lines[i + 1]) && first < lines[i + 1].search(/\S/)) { // if there is a space and also child lines, line builds new block
             var key = line;
-            var value = { };
+            var value = {};
         } else { // if there is a space (and no child lines), key holds string value
             var key = line.substring(0, space); // get the key (before the first space)
             var value = line.substring(space + 1); // get the value (after the first space)
@@ -899,7 +899,7 @@ Block.jQuery = false;
 try { Block.jQuery = (typeof jQuery == 'function') || (typeof window.jQuery == 'function'); }
 catch (error) { Block.jQuery = false; }
 
-Block.blocks = { };
+Block.blocks = {};
 
 Block.queries = function (state) { // control media queries
     if (state === 'on')
