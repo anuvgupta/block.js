@@ -20,7 +20,7 @@ block.js is used in many of my projects:
 # details
 
 Tired of rewriting the same `<html>` tags? Lost and confused in a web of `#css` selectors?  
-Just want to create _simple, aesthetic, responsive_ web pages? **block.js is for you!**
+Just want to create _simple, aesthetic, responsive_ web pages? **block.js is for you!**  
 Website, docs, tutorials coming soon.
 
 # license
