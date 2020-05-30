@@ -6,6 +6,7 @@ block.js is a lightweight JavaScript library for designing responsive web pages 
 
 block.js is used in many of my projects:
 
+-   [nestor](https://github.com/anuvgupta/nestor)
 -   [led-lights](https://github.com/anuvgupta/led-lights)
 -   [me.anuv.me](https://github.com/anuvgupta/me.anuv.me)
 -   [github.anuv.me](https://github.com/anuvgupta/anuvgupta.github.io)
