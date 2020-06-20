@@ -1,6 +1,6 @@
 # block.js
 
-block.js is a lightweight JavaScript library for designing responsive web pages by generating reusable and customizable HTML blocks.
+block.js is a lightweight JavaScript web design library for designing responsive web application layouts. It generates customizable, reusable, event-driven HTML/CSS blocks which react upon receiving data, from a minimalist tag-less hybrid templating syntax.
 
 # usage
 
