@@ -1,10 +1,10 @@
 /*
-  block.js v3.2
+  block.js v3.3
   [http://github.anuv.me/block.js]
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
   License: MIT [https://github.com/anuvgupta/block.js/blob/v3/LICENSE.md]
-  Copyright: (c) 2019 Anuv Gupta
+  Copyright: (c) 2020 Anuv Gupta
 */
 
 var Block;
@@ -107,6 +107,10 @@ Block = function () {
         setAdd: function ($block) { // set block to which add method should add blocks
             if (Is.obj($block) && $block.block)
                 addblock = $block;
+            return this; // chain
+        },
+        removeAddBlock: function () { // remove custom addBlock
+            addblock = null;
             return this; // chain
         },
         __setAdd: function ($block) { // set block to which add method should add blocks
