@@ -1,10 +1,10 @@
 /*
-  block.js v3.3
+  block.js v4
   [http://github.anuv.me/block.js]
   File: block.js (block.js master)
   Source: [https://github.com/anuvgupta/block.js]
-  License: MIT [https://github.com/anuvgupta/block.js/blob/v3/LICENSE.md]
-  Copyright: (c) 2020 Anuv Gupta
+  License: MIT [https://github.com/anuvgupta/block.js/blob/v4/LICENSE.md]
+  Copyright: (c) 2026 Anuv Gupta
 */
 
 var Block;
